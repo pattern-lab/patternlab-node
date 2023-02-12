@@ -156,7 +156,8 @@
  * 1) Width expands entire container at small screens
  */
 .sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
-  width: 100%; /* 1 */
+  width: 100%;
+  /* 1 */
 }
 
 /**
@@ -166,8 +167,10 @@
  */
 @media all and (min-width: 70em) {
   .sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
-    width: 20rem; /* 1 */
-    height: 100vh; /* 2 */
+    width: 20rem;
+    /* 1 */
+    height: 100vh;
+    /* 2 */
     margin-bottom: 0;
   }
 }
@@ -189,9 +192,12 @@
  */
 @media all and (min-width: 70em) {
   .sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary {
-    position: absolute; /* 1 */
-    height: inherit; /* 2 */
-    float: left; /* 3 */
+    position: absolute;
+    /* 1 */
+    height: inherit;
+    /* 2 */
+    float: left;
+    /* 3 */
   }
 }
 /**
@@ -199,7 +205,8 @@
  * 1) Make fpo block width of the container on small screens
  */
 .sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
-  width: 100%; /* 1 */
+  width: 100%;
+  /* 1 */
 }
 
 /**
@@ -209,8 +216,10 @@
  */
 @media all and (min-width: 70em) {
   .sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
-    width: 20rem; /* 1 */
-    height: inherit; /* 2 */
+    width: 20rem;
+    /* 1 */
+    height: inherit;
+    /* 2 */
   }
 }
 /**

@@ -8,16 +8,12 @@
   "scripts": {
     "postinstall": "yarn build:all",
     "setup": "yarn",
-    "build:uikit": "cd packages/uikit-workshop && npm run build",
-    "lint:fix": "npm run lint -- --fix",
-    "lint": "eslint --max-warnings 0 './packages/{core,cli,uikit-workshop}/**/*.js ' --ignore-path .eslintignore",
-    "test": "lerna run test",
-    "clean": "git clean -dfx",
-    "publish": "npx lerna publish -m \"[skip travis] chore(release): publish %s\"",
-    "postpublish": "auto release",
-    "prepare": "husky install",
+    "lint": "nx run-many --target=lint",
+    "test": "nx run-many --target=test",
     "build:all": "nx run-many --target=build --configuration=production",
-    "version:all": "nx run-many --target=version --baseBranch=master --syncVersions --noVerify"
+    "version:all": "nx run-many --target=version --baseBranch=master --syncVersions --noVerify",
+    "clean": "git clean -dfx",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@11ty/eleventy": "^0.12.1",

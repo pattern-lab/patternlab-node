@@ -4,6 +4,12 @@
   "sourceRoot": "packages/starterkit-handlebars-demo/src",
   "projectType": "library",
   "targets": {
+    "build-ui": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "build-ui"
+      }
+    },
     "build": {
       "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
@@ -21,7 +27,8 @@
             "ignore": ["index.ts"]
           }
         ]
-      }
+      },
+      "dependsOn": [{ "projects": "self", "target": "build-ui" }]
     },
     "publish": {
       "executor": "nx:run-commands",

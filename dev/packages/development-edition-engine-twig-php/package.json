@@ -9,8 +9,7 @@
     "pl:install": "patternlab install --config ./patternlab-config.json",
     "pl:serve": "patternlab serve --config ./patternlab-config.json",
     "pl:starterkit": "patternlab install --starterkits @pattern-lab/starterkit-twig-demo",
-    "pl:version": "patternlab --version",
-    "dev": "node ./node_modules/@pattern-lab/uikit-workshop/build-tools.js"
+    "pl:version": "patternlab --version"
   },
   "keywords": [
     "Pattern Lab",

@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/starterkit-handlebars-demo",
   "scripts": {
-    "build": "copyfiles ../../node_modules/@fontsource/abel/files/*.woff* ../../node_modules/@fontsource/raleway/files/*400-*.woff* ../../node_modules/@fontsource/raleway/files/*700-normal.woff* src/fonts -f && cd src/css && sass style.scss:style.css pattern-scaffolding.scss:pattern-scaffolding.css --load-path=../../../../node_modules/"
+    "build-ui": "copyfiles ../../node_modules/@fontsource/abel/files/*.woff* ../../node_modules/@fontsource/raleway/files/*400-*.woff* ../../node_modules/@fontsource/raleway/files/*700-normal.woff* src/fonts -f && cd src/css && sass style.scss:style.css pattern-scaffolding.scss:pattern-scaffolding.css --load-path=../../../../node_modules/"
   },
   "engines": {
     "node": ">=14.21.1"
