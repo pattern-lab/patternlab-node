@@ -2,39 +2,6 @@
   "name": "@pattern-lab/core",
   "description": "Create atomic design systems with Pattern Lab. This is the core API and orchestrator of the ecosystem.",
   "version": "6.0.1",
-  "main": "./src/index.js",
-  "dependencies": {
-    "@pattern-lab/engine-handlebars": "^6.0.0",
-    "@pattern-lab/engine-mustache": "^6.0.0",
-    "@pattern-lab/live-server": "^6.0.0",
-    "chalk": "4.1.0",
-    "chokidar": "3.5.1",
-    "dive": "0.5.0",
-    "fs-extra": "10.0.0",
-    "glob": "7.1.6",
-    "graphlib": "2.1.8",
-    "js-beautify": "1.13.5",
-    "js-yaml": "4.1.0",
-    "lodash": "4.17.21",
-    "markdown-it": "12.3.2",
-    "node-fetch": "2.6.7",
-    "recursive-copy": "2.0.13",
-    "update-notifier": "5.1.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.13.14",
-    "@babel/plugin-proposal-decorators": "^7.13.5",
-    "@babel/plugin-syntax-jsx": "^7.12.13",
-    "babel-eslint": "^10.0.2",
-    "eslint": "^6.1.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-prettier": "^3.1.0",
-    "jsdoc-to-markdown": "6.0.1",
-    "prettier": "^2.8.1",
-    "rewire": "2.5.2",
-    "standard-version": "9.1.1",
-    "tap": "14.11.0"
-  },
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",
@@ -58,17 +25,10 @@
   ],
   "license": "MIT",
   "scripts": {
-    "docs": "node ./scripts/docs.js",
-    "lint": "eslint -c ../../.eslintrc.js src/**/*.js",
-    "pretest": "npm run lint",
-    "release": "standard-version",
-    "test": "tap test/*_tests.js --reporter spec --coverage"
+    "docs": "node ./scripts/docs.js"
   },
   "engines": {
     "node": ">=14.21.1"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }

@@ -2,10 +2,6 @@
   "name": "@pattern-lab/engine-underscore",
   "description": "The Underscore engine for Pattern Lab / Node",
   "version": "6.0.0",
-  "main": "lib/engine_underscore.js",
-  "dependencies": {
-    "underscore": "1.13.0"
-  },
   "keywords": [
     "Pattern Lab",
     "Atomic Web Design",
@@ -19,14 +15,8 @@
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",
   "author": "Brian Muenzenmeyer & Geoffrey Pursell",
   "license": "MIT",
-  "scripts": {
-    "lint": "eslint **/*.js"
-  },
   "engines": {
     "node": ">=14.21.1"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "gitHead": "80f62be442223e09bafb30d0529cbd768e03f2ac"
 }

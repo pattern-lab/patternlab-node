@@ -1,2 +1,2 @@
-import '@pattern-lab/uikit-polyfills';
+import 'reflect-metadata';
 import './patternlab-components';

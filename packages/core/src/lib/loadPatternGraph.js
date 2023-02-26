@@ -8,6 +8,7 @@ const PatternGraph = require('./pattern_graph').PatternGraph;
  * For that reason an empty graph is returned in this case, so every pattern will be flagged as
  * "needs recompile". Otherwise the pattern graph is loaded from the meta data.
  *
+ * @type Class
  * @param patternlab
  * @param {boolean} deletePatternDir When {@code true}, an empty graph is returned
  * @return {PatternGraph}

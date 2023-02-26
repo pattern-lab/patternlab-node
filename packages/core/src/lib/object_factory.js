@@ -22,17 +22,13 @@ const prefixMatcherDeprecationCheckHidden = /^_.+/;
  * https://github.com/pattern-lab/patternlab-node/pull/1016
  * https://github.com/pattern-lab/patternlab-node/pull/1143
  *
+ * @type Class
  * @param {string} relPath relative directory
  * @param {Object} jsonFileData The JSON used to render values in the pattern.
  * @param {Patternlab} patternlab The actual pattern lab instance
  * @param {boolean} isPromoteToFlatPatternRun specifies if the pattern needs to be removed from its deep nesting folder
  */
-const Pattern = function (
-  relPath,
-  jsonFileData,
-  patternlab,
-  isPromoteToFlatPatternRun
-) {
+export const Pattern = function (relPath, jsonFileData, patternlab, isPromoteToFlatPatternRun) {
   this.relPath = path.normalize(relPath); // 'atoms/global/colors.mustache'
 
   /**
@@ -45,9 +41,7 @@ const Pattern = function (
     pathObj,
     patternlab,
     isPromoteToFlatPatternRun ||
-      (patternlab &&
-        patternlab.config &&
-        patternlab.config.allPatternsAreDeeplyNested)
+      (patternlab && patternlab.config && patternlab.config.allPatternsAreDeeplyNested),
   );
 
   this.fileName = pathObj.name; // 'colors'
@@ -65,7 +59,7 @@ const Pattern = function (
     !patternlab.config.disableDeprecationWarningForOrderPatterns
   ) {
     logger.warning(
-      `${info.shortNotation}-${this.fileName} "Pattern", "Group" and "Subgroup" ordering by number prefix (##-) will be deprecated in the future.\n See https://patternlab.io/docs/reorganizing-patterns/`
+      `${info.shortNotation}-${this.fileName} "Pattern", "Group" and "Subgroup" ordering by number prefix (##-) will be deprecated in the future.\n See https://patternlab.io/docs/reorganizing-patterns/`,
     );
   }
 
@@ -79,7 +73,7 @@ const Pattern = function (
     !patternlab.config.disableDeprecationWarningForHiddenPatterns
   ) {
     logger.warning(
-      `${info.shortNotation}/${this.fileName} "Pattern", "Group" and "Subgroup" hiding by underscore prefix (_*) will be deprecated in the future.\n See https://patternlab.io/docs/hiding-patterns-in-the-navigation/`
+      `${info.shortNotation}/${this.fileName} "Pattern", "Group" and "Subgroup" hiding by underscore prefix (_*) will be deprecated in the future.\n See https://patternlab.io/docs/hiding-patterns-in-the-navigation/`,
     );
   }
 
@@ -101,9 +95,7 @@ const Pattern = function (
   this.jsonFileData = jsonFileData || {};
 
   // flip tildes to dashes
-  this.patternBaseName = this.fileName
-    .replace(prefixMatcher, '')
-    .replace('~', '-'); // 'colors'
+  this.patternBaseName = this.fileName.replace(prefixMatcher, '').replace('~', '-'); // 'colors'
 
   // Fancy name - Uppercase letters of pattern name partials.
   // global-colors -> 'Global Colors'
@@ -121,9 +113,7 @@ const Pattern = function (
 
   // Calculated path from the root of the public directory to the generated
   // (rendered!) html file for this pattern, to be shown in the iframe
-  this.patternLink = patternlab
-    ? this.getPatternLink(patternlab, 'rendered')
-    : null;
+  this.patternLink = patternlab ? this.getPatternLink(patternlab, 'rendered') : null;
 
   // The canonical "key" by which this pattern is known. This is the callable
   // name of the pattern. UPDATE: this.key is now known as this.patternPartial
@@ -145,8 +135,7 @@ const Pattern = function (
    *  molecules
    *   flatPattern
    */
-  this.isFlatPattern =
-    this.patternGroup === this.patternSubgroup || !this.patternSubgroup;
+  this.isFlatPattern = this.patternGroup === this.patternSubgroup || !this.patternSubgroup;
 
   this.isPattern = true;
   this.patternState = '';
@@ -207,11 +196,7 @@ Pattern.prototype = {
     }
 
     if (this.engine) {
-      const promise = this.engine.renderPattern(
-        this,
-        data || this.jsonFileData,
-        partials
-      );
+      const promise = this.engine.renderPattern(this, data || this.jsonFileData, partials);
       return promise
         .then((results) => {
           return results;
@@ -242,9 +227,7 @@ Pattern.prototype = {
   getPatternLink: function (patternlab, suffixType, customFileExtension) {
     // if no suffixType is provided, we default to rendered
     const suffixConfig = patternlab.config.outputFileSuffixes;
-    const suffix = suffixType
-      ? suffixConfig[suffixType]
-      : suffixConfig.rendered;
+    const suffix = suffixType ? suffixConfig[suffixType] : suffixConfig.rendered;
 
     if (suffixType === 'rawTemplate') {
       return this.name + path.sep + this.name + suffix + this.fileExtension;
@@ -346,8 +329,7 @@ Pattern.prototype = {
       // colors(.mustache) is deeply nested in atoms-/global/colors
       patternlab: patternlab,
       patternHasOwnDir: isPromoteToFlatPatternRun
-        ? path.basename(pathObj.dir).replace(prefixMatcher, '') ===
-            pathObj.name.replace(prefixMatcher, '') ||
+        ? path.basename(pathObj.dir).replace(prefixMatcher, '') === pathObj.name.replace(prefixMatcher, '') ||
           path.basename(pathObj.dir).replace(prefixMatcher, '') ===
             pathObj.name.split('~')[0].replace(prefixMatcher, '')
         : false,
@@ -367,9 +349,7 @@ Pattern.prototype = {
     } else if (info.dirLevel === 2 && info.patternHasOwnDir) {
       // -> ./folder
       info.shortNotation = path.dirname(pathObj.dir).replace(prefixMatcher, '');
-      info.patternGroupOrder = Pattern.prototype.setPatternOrderDataForInfo(
-        path.dirname(pathObj.dir)
-      );
+      info.patternGroupOrder = Pattern.prototype.setPatternOrderDataForInfo(path.dirname(pathObj.dir));
     } else {
       // -> ./folder/folder
       info.shortNotation = pathObj.dir
@@ -377,14 +357,12 @@ Pattern.prototype = {
         .map((o, i) => {
           if (i === 0) {
             // TODO: Remove when prefix gets deprecated
-            info.patternGroupOrder =
-              Pattern.prototype.setPatternOrderDataForInfo(o);
+            info.patternGroupOrder = Pattern.prototype.setPatternOrderDataForInfo(o);
           }
 
           if (i === 1) {
             // TODO: Remove when prefix gets deprecated
-            info.patternSubgroupOrder =
-              Pattern.prototype.setPatternOrderDataForInfo(o);
+            info.patternSubgroupOrder = Pattern.prototype.setPatternOrderDataForInfo(o);
           }
 
           return o.replace(prefixMatcher, '');
@@ -435,13 +413,8 @@ Pattern.create = function (relPath, data, customProps, patternlab) {
   return Object.assign(newPattern, customProps);
 };
 
-const CompileState = {
+export const CompileState = {
   NEEDS_REBUILD: 'needs rebuild',
   BUILDING: 'building',
   CLEAN: 'clean',
-};
-
-module.exports = {
-  Pattern: Pattern,
-  CompileState: CompileState,
 };

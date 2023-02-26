@@ -1,4 +1,3 @@
-**/*.json
 **/README.md
 **/node_modules/
 **/bower_components/
@@ -9,9 +8,10 @@ packages/core/scripts/api.handlebars
 packages/core/scripts/events.handlebars
 packages/core/test/files/annotations.js
 packages/**/annotations.js
-*.json
 *.md
 **/reset.scss
 **/_meta/_head.*
 **/_meta/_foot.*
 **/development-edition*/source/_patterns/**
+/dist
+/coverage

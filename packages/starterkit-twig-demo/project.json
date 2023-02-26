@@ -1,0 +1,64 @@
+{
+  "name": "starterkit-twig-demo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/starterkit-twig-demo/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/starterkit-twig-demo",
+        "main": "packages/starterkit-twig-demo/src/index.ts",
+        "tsConfig": "packages/starterkit-twig-demo/tsconfig.lib.json",
+        "assets": [
+          "packages/starterkit-twig-demo/*.md",
+          "packages/starterkit-twig-demo/LICENSE",
+          "packages/starterkit-twig-demo/composer.json",
+          "packages/starterkit-twig-demo/patternlab-config.json",
+          {
+            "glob": "**/*",
+            "input": "packages/starterkit-twig-demo/src",
+            "output": "dist",
+            "ignore": ["index.ts"]
+          }
+        ]
+      }
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node tools/scripts/publish.mjs starterkit-twig-demo {args.ver} {args.tag}"
+      },
+      "dependsOn": ["build"]
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/starterkit-twig-demo/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/starterkit-twig-demo/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional"
+      }
+    }
+  },
+  "tags": []
+}

@@ -19,6 +19,12 @@ let fs = require('fs-extra'); //eslint-disable-line prefer-const
 
 // loads a pattern from disk, creates a Pattern object from it and
 // all its associated files, and records it in patternlab.patterns[]
+/**
+ * @type Class
+ * @param {*} relPath
+ * @param {*} patternlab
+ * @returns
+ */
 module.exports = function (relPath, patternlab) {
   const fileObject = path.parse(relPath);
 
@@ -42,25 +48,17 @@ module.exports = function (relPath, patternlab) {
         relPath +
         ' was found greater than 3 levels deep from ' +
         patternlab.config.paths.source.patterns +
-        '.'
+        '.',
     );
-    logger.warning(
-      "It's strongly suggested to not deviate from the following structure under _patterns/"
-    );
-    logger.warning(
-      '[patternGroup]/[patternSubgroup]/[patternName].[patternExtension]'
-    );
+    logger.warning("It's strongly suggested to not deviate from the following structure under _patterns/");
+    logger.warning('[patternGroup]/[patternSubgroup]/[patternName].[patternExtension]');
     logger.warning('or');
-    logger.warning(
-      '[patternGroup]/[patternSubgroup]/[patternName]/[patternName].[patternExtension]'
-    );
+    logger.warning('[patternGroup]/[patternSubgroup]/[patternName]/[patternName].[patternExtension]');
     logger.warning('');
     logger.warning(
-      'While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. '
+      'While Pattern Lab may still function, assets may 404 and frontend links may break. Consider yourself warned. ',
     );
-    logger.warning(
-      'Read More: https://patternlab.io/docs/overview-of-patterns/'
-    );
+    logger.warning('Read More: https://patternlab.io/docs/overview-of-patterns/');
     logger.warning('');
   }
 
@@ -80,23 +78,15 @@ module.exports = function (relPath, patternlab) {
   //look for a json file for this template
   let jsonFilename;
   try {
-    jsonFilename = path.resolve(
-      patternsPath,
-      currentPattern.subdir,
-      currentPattern.fileName
-    );
+    jsonFilename = path.resolve(patternsPath, currentPattern.subdir, currentPattern.fileName);
     const patternData = dataLoader.loadDataFromFile(jsonFilename, fs);
 
     if (patternData) {
       currentPattern.jsonFileData = patternData;
-      logger.debug(
-        `found pattern-specific data for ${currentPattern.patternPartial}`
-      );
+      logger.debug(`found pattern-specific data for ${currentPattern.patternPartial}`);
     }
   } catch (err) {
-    logger.error(
-      `There was an error parsing sibling JSON for ${currentPattern.relPath}`
-    );
+    logger.error(`There was an error parsing sibling JSON for ${currentPattern.relPath}`);
     logger.error(err);
   }
 
@@ -106,21 +96,17 @@ module.exports = function (relPath, patternlab) {
     listJsonFileName = path.resolve(
       patternsPath,
       currentPattern.subdir,
-      `${currentPattern.fileName}.listitems`
+      `${currentPattern.fileName}.listitems`,
     );
     const listItemsData = dataLoader.loadDataFromFile(listJsonFileName, fs);
 
     if (listItemsData) {
-      logger.debug(
-        `found pattern-specific listitems data for ${currentPattern.patternPartial}`
-      );
+      logger.debug(`found pattern-specific listitems data for ${currentPattern.patternPartial}`);
       currentPattern.listitems = listItemsData;
       buildListItems(currentPattern);
     }
   } catch (err) {
-    logger.error(
-      `There was an error parsing sibling listitem JSON for ${currentPattern.relPath}`
-    );
+    logger.error(`There was an error parsing sibling listitem JSON for ${currentPattern.relPath}`);
     logger.error(err);
   }
 
@@ -133,8 +119,7 @@ module.exports = function (relPath, patternlab) {
   currentPattern.template = fs.readFileSync(templatePath, 'utf8');
 
   //find any pattern parameters that may be in the current pattern
-  currentPattern.parameteredPartials =
-    currentPattern.findPartialsWithPatternParameters();
+  currentPattern.parameteredPartials = currentPattern.findPartialsWithPatternParameters();
 
   [
     templatePath,

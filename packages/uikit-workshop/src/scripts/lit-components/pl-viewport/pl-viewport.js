@@ -37,10 +37,7 @@ class IFrame extends BaseLitComponent {
     iframeLoaderStyles.use();
     styles.use();
 
-    this.defaultPattern =
-      window.config && window.config.defaultPattern
-        ? window.config.defaultPattern
-        : 'all';
+    this.defaultPattern = window.config && window.config.defaultPattern ? window.config.defaultPattern : 'all';
 
     this.defaultIframeUrl = urlHandler.getFileName(this.defaultPattern);
 
@@ -87,12 +84,7 @@ class IFrame extends BaseLitComponent {
     this.bodySize =
       window.config.ishFontSize !== undefined
         ? parseInt(window.config.ishFontSize, 10)
-        : parseInt(
-            window
-              .getComputedStyle(document.body, null)
-              .getPropertyValue('font-size'),
-            10
-          ); //Body size of the document
+        : parseInt(window.getComputedStyle(document.body, null).getPropertyValue('font-size'), 10); //Body size of the document
 
     //set up the default for the
     this.baseIframePath =
@@ -116,10 +108,7 @@ class IFrame extends BaseLitComponent {
   sanitizePatternName(plName) {
     if (urlHandler.getFileName(plName)) {
       return plName;
-    } else if (
-      !document.querySelector(`[data-patternpartial="${plName}"]`) &&
-      plName
-    ) {
+    } else if (!document.querySelector(`[data-patternpartial="${plName}"]`) && plName) {
       return plName.replace(/[-][0-9][0-9]/g, '');
     } else {
       return plName;
@@ -164,7 +153,7 @@ class IFrame extends BaseLitComponent {
             currentPattern: currentPattern,
           },
           null,
-          addressReplacement
+          addressReplacement,
         );
         this.dontWipeBrowserHistory = false;
       } else {
@@ -173,7 +162,7 @@ class IFrame extends BaseLitComponent {
             currentPattern: currentPattern,
           },
           null,
-          addressReplacement
+          addressReplacement,
         );
       }
     }
@@ -232,9 +221,7 @@ class IFrame extends BaseLitComponent {
       }, 800);
 
       const targetOrigin =
-        window.location.protocol === 'file:'
-          ? '*'
-          : window.location.protocol + '//' + window.location.host;
+        window.location.protocol === 'file:' ? '*' : window.location.protocol + '//' + window.location.host;
 
       const obj = JSON.stringify({
         event: 'patternLab.resize',
@@ -266,7 +253,7 @@ class IFrame extends BaseLitComponent {
             this.origOrientation = window.orientation;
           }
         },
-        false
+        false,
       );
     }
   }
@@ -330,14 +317,10 @@ class IFrame extends BaseLitComponent {
 
     if (plPath) {
       this.iFramePath =
-        plPath !== ''
-          ? this.baseIframePath + plPath + '?' + Date.now()
-          : this.defaultIframePath;
+        plPath !== '' ? this.baseIframePath + plPath + '?' + Date.now() : this.defaultIframePath;
       this.dontWipeBrowserHistory = true;
 
-      document
-        .querySelector('.pl-js-iframe')
-        .contentWindow.location.replace(this.iFramePath);
+      document.querySelector('.pl-js-iframe').contentWindow.location.replace(this.iFramePath);
     }
   }
 
@@ -360,14 +343,8 @@ class IFrame extends BaseLitComponent {
     const attachIframeUnload = () => {
       // Remove the unloadIframeHandler in case it was already attached to avoid firing twice
       if (this.iframe.contentWindow) {
-        this.iframe.contentWindow.removeEventListener(
-          'unload',
-          unloadIframeHandler
-        );
-        this.iframe.contentWindow.addEventListener(
-          'unload',
-          unloadIframeHandler
-        );
+        this.iframe.contentWindow.removeEventListener('unload', unloadIframeHandler);
+        this.iframe.contentWindow.addEventListener('unload', unloadIframeHandler);
       }
     };
 
@@ -379,9 +356,7 @@ class IFrame extends BaseLitComponent {
   handleIframe404() {
     setTimeout(() => {
       if (
-        this.iframe?.contentWindow?.document?.body?.textContent.includes(
-          'Cannot GET'
-        ) ||
+        this.iframe?.contentWindow?.document?.body?.textContent.includes('Cannot GET') ||
         this.iframe?.contentWindow?.document?.title.includes('Error')
       ) {
         /**
@@ -389,8 +364,7 @@ class IFrame extends BaseLitComponent {
          * Workaround to avoiding an infinite loop (if using srcdoc) which breaks the ability to
          * hit the back button if you hit a 404
          */
-        this.iframe.contentWindow.document.body.innerHTML =
-          this.iframe404Fallback;
+        this.iframe.contentWindow.document.body.innerHTML = this.iframe404Fallback;
       }
     }, 100);
   }
@@ -408,23 +382,16 @@ class IFrame extends BaseLitComponent {
     return html`
       <div class="pl-c-viewport pl-js-viewport">
         <div class="pl-c-viewport__cover pl-js-viewport-cover" hidden></div>
-        <div
-          class="pl-c-viewport__iframe-wrapper pl-js-vp-iframe-container"
-          style="width: ${initialWidth}"
-        >
+        <div class="pl-c-viewport__iframe-wrapper pl-js-vp-iframe-container" style="width: ${initialWidth}">
           <iframe
-            class="pl-c-viewport__iframe pl-js-iframe pl-c-body--theme-${this
-              .themeMode}"
+            class="pl-c-viewport__iframe pl-js-iframe pl-c-body--theme-${this.themeMode}"
             src=${ifDefined(url === '' ? undefined : url)}
             srcdoc=${ifDefined(url === '' ? this.iframe404Fallback : undefined)}
             title="Pattern details"
           ></iframe>
 
           <div class="pl-c-viewport__resizer pl-js-resize-container">
-            <div
-              class="pl-c-viewport__resizer-handle pl-js-resize-handle"
-              @mousedown="${this.handleMouseDown}"
-            >
+            <div class="pl-c-viewport__resizer-handle pl-js-resize-handle" @mousedown="${this.handleMouseDown}">
               <svg
                 viewBox="0 0 20 20"
                 preserveAspectRatio="xMidYMid"
@@ -455,10 +422,7 @@ class IFrame extends BaseLitComponent {
 
     function handleIframeCoverResize(e) {
       const viewportWidth = origViewportWidth + 2 * (e.clientX - origClientX);
-      if (
-        viewportWidth > minViewportWidth &&
-        viewportWidth < maxViewportWidth
-      ) {
+      if (viewportWidth > minViewportWidth && viewportWidth < maxViewportWidth) {
         self.sizeiframe(viewportWidth, false);
       } else if (viewportWidth > maxViewportWidth) {
         self.sizeiframe(maxViewportWidth, false);
@@ -473,18 +437,13 @@ class IFrame extends BaseLitComponent {
     document.body.addEventListener(
       'mouseup',
       function () {
-        self.iframeCover.removeEventListener(
-          'mousemove',
-          handleIframeCoverResize
-        );
+        self.iframeCover.removeEventListener('mousemove', handleIframeCoverResize);
         self.iframeCover.hidden = true;
-        self
-          .querySelector('.pl-js-resize-handle')
-          .classList.remove('is-resizing');
+        self.querySelector('.pl-js-resize-handle').classList.remove('is-resizing');
       },
       {
         once: true,
-      }
+      },
     );
 
     return false;
@@ -502,9 +461,7 @@ class IFrame extends BaseLitComponent {
     // workaround for certain pages (especially view all pages) not always matching up internally with the expected current pattern key
     if (data.event !== undefined && data.event === 'patternLab.pageLoad') {
       try {
-        const currentPattern =
-          this.sanitizePatternName(data.patternpartial) ||
-          this.getPatternParam();
+        const currentPattern = this.sanitizePatternName(data.patternpartial) || this.getPatternParam();
 
         document.title = 'Pattern Lab - ' + currentPattern;
 
@@ -525,7 +482,7 @@ class IFrame extends BaseLitComponent {
             currentPattern: currentPattern,
           },
           null,
-          addressReplacement
+          addressReplacement,
         );
 
         const currentUrl = urlHandler.getFileName(currentPattern);

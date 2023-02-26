@@ -1,0 +1,39 @@
+{
+  "name": "@pattern-lab/development-edition-engine-handlebars",
+  "private": true,
+  "version": "6.0.1",
+  "description": "The tree of components we use to test, develop and validate the Handlebars engine",
+  "scripts": {
+    "pl:build": "patternlab build --config ./patternlab-config.json",
+    "pl:help": "patternlab --help",
+    "pl:install": "patternlab install --config ./patternlab-config.json",
+    "pl:serve": "patternlab serve --config ./patternlab-config.json",
+    "pl:starterkit": "patternlab install --starterkits @pattern-lab/starterkit-handlebars-demo",
+    "pl:version": "patternlab --version"
+  },
+  "keywords": [
+    "Pattern Lab",
+    "Atomic Web Design",
+    "Node",
+    "Handlebars",
+    "Edition"
+  ],
+  "author": "Brian Muenzenmeye",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pattern-lab/patternlab-node.git"
+  },
+  "engines": {
+    "node": ">=14.21.1"
+  },
+  "dependencies": {
+    "@pattern-lab/cli": "file:../../../dist/packages/cli",
+    "@pattern-lab/core": "file:../../../dist/packages/core",
+    "@pattern-lab/engine-handlebars": "file:../../../dist/packages/engine-handlebars",
+    "@pattern-lab/engine-mustache": "file:../../../dist/packages/engine-mustache",
+    "@pattern-lab/plugin-tab": "file:../../../dist/packages/plugin-tab",
+    "@pattern-lab/starterkit-handlebars-demo": "file:../../../dist/packages/starterkit-handlebars-demo",
+    "@pattern-lab/uikit-workshop": "file:../../../dist/packages/uikit-workshop"
+  }
+}

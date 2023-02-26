@@ -1,0 +1,319 @@
+/**
+ * This stylesheet is for styles you want to include only when displaying demo
+ * styles for grids, animations, color swatches, etc.
+ * These styles will not be your production CSS.
+ */
+#sg-patterns {
+  -webkit-box-sizing: border-box !important;
+  box-sizing: border-box !important;
+  max-width: 100%;
+  padding: 0 1rem;
+}
+
+.demo-animate {
+  background: #ddd;
+  padding: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sg-colors {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+@supports (display: grid) {
+  .sg-colors {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+.sg-colors li {
+  -webkit-box-flex: 1;
+  -ms-flex: auto;
+  flex: auto;
+  padding: 0.3em;
+  margin: 0 0.5em 0.5em 0;
+  min-width: 5em;
+  max-width: 14em;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.sg-swatch {
+  display: block;
+  height: 4em;
+  margin-bottom: 0.3em;
+  border-radius: 5px;
+}
+
+.sg-label {
+  font-size: 90%;
+  line-height: 1;
+}
+
+/**
+ * Icon grid
+ */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+}
+
+/**
+ * Icon grid item
+ */
+.icon-grid__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  background: #f5f5f5;
+  border: 1px solid #cccccd;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin: 0.5rem;
+}
+
+/**
+ * Icon grid item title
+ */
+.icon-grid__item h3 {
+  font-size: 0.6rem;
+  margin-top: 1rem;
+}
+
+/**
+* Icon grid item svg
+*/
+.icon-grid__item svg {
+  height: 16px;
+  width: 16px;
+}
+
+.sg-pattern-example > footer > p {
+  display: none;
+}
+
+/**
+* For placeholder only block
+* 1) Used for placeholder blocks for layouts
+*/
+.fpo {
+  padding: 1rem;
+  background: #f5f5f5;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/**
+* Dark for placeholder only block
+*/
+.fpo-block--dark {
+  background: #808080;
+}
+
+.sg-pattern-example small {
+  font-size: 10px;
+  display: block;
+  margin-top: 0.5rem;
+}
+
+.sg-pattern-example small code {
+  font-size: inherit;
+  padding: 0.2em;
+}
+
+/**
+ * Add height and overflow to two column fixed layout to show functionality only in style-guide example.
+ */
+.sg-pattern-example .l-page-layout--two-column-fixed {
+  height: 10rem;
+  overflow: auto;
+}
+
+/**
+ * Add min-height of 0 to two column fixed to help with showing functionality only in style-guide example.
+ */
+.sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary {
+  min-height: 0;
+}
+
+/**
+ * FPO block within two column fixed layout within secondary section
+ * 1) Width expands entire container at small screens
+ */
+.sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
+  width: 100%;
+  /* 1 */
+}
+
+/**
+ * FPO block within two column fixed layout within secondary section larger screens
+ * 1) Set height to 100% of viewport height
+ * 2) Set width = width of vertical header
+ */
+@media all and (min-width: 70em) {
+  .sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
+    width: 20rem;
+    /* 1 */
+    height: 100vh;
+    /* 2 */
+    margin-bottom: 0;
+  }
+}
+/**
+ * Two column fixed layout within pattern example
+ * 1) Set height to height of placeholder content secondary section
+ * 2) Set overflow to auto so the secondary section stays fixed while the main section scrolls
+ */
+.sg-pattern-example .l-page-layout--two-column-fixed {
+  height: 18.3rem;
+  overflow: auto;
+}
+
+/**
+ * Secondary section within pattern example and two-column fixed at larger screens
+ * 1) Position absolute to make this pattern similar to fixed vertical header
+ * 2) Height inherits so it doesn't span longer than the pattern window on "All" PL page
+ * 3) Float this left to get layout sections side by side within PL "View All" section
+ */
+@media all and (min-width: 70em) {
+  .sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary {
+    position: absolute;
+    /* 1 */
+    height: inherit;
+    /* 2 */
+    float: left;
+    /* 3 */
+  }
+}
+/**
+ *  Fpo block within pattern example, two column fixed, and secondary section
+ * 1) Make fpo block width of the container on small screens
+ */
+.sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
+  width: 100%;
+  /* 1 */
+}
+
+/**
+ * FPO Block Within pattern example, two column fixed, and secondary layout larger screens
+ * 1) Added width similar to style guide vertical header
+ * 2) Height inherits so it doesn't span longer than the pattern window on "All" PL page
+ */
+@media all and (min-width: 70em) {
+  .sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__secondary .fpo-block {
+    width: 20rem;
+    /* 1 */
+    height: inherit;
+    /* 2 */
+  }
+}
+/**
+ * Add height of main to get appearance of side bar staying fixed while main window scrolls.
+ */
+.sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__main {
+  height: 30rem;
+}
+
+/**
+ * Add height of fpo block to equal height of main to help with scrolling main window/fixed sidebar effect.
+ */
+.sg-pattern-example .l-page-layout--two-column-fixed .l-page-layout__main .fpo-block {
+  height: 30rem;
+  margin-bottom: 0;
+}
+
+/**
+ * Vertical header in pattern example at large screens
+ */
+@media all and (min-width: 70em) {
+  .sg-pattern-example .c-header--vertical {
+    max-width: 20rem;
+  }
+}
+#molecules-footer-nav .sg-pattern-example {
+  background: #041544;
+}
+
+.sg-pattern .c-hero {
+  margin: 0;
+}
+
+.sg-pattern .c-promo-block {
+  margin: 0;
+}
+
+/*------------------------------------*\
+    #VARIABLES
+\*------------------------------------*/
+/**
+* These variables are specific to the Pattern Lab shell and exist
+* indepenedently of any project-specific styles
+*/
+/*------------------------------------*\
+    #ANNOTATIONS
+\*------------------------------------*/
+/**
+ * Annotated elements styles
+ * 1) Annotation styles that appear inside the iframe
+ * 2) For elements in the DOM that have an annotation, we want to
+ * provide styles that help the user understand that annotations are available.
+ * We do this with some cursor helpers and a
+ */
+.pl-has-annotation {
+  cursor: help !important;
+  outline: 1px dotted #808080;
+  outline-offset: -4px;
+  transition: box-shadow 0.1s ease;
+}
+.pl-has-annotation a,
+.pl-has-annotation input {
+  cursor: help !important;
+}
+.pl-has-annotation:hover {
+  box-shadow: 0 0 3px #808080;
+}
+.pl-has-annotation.active {
+  box-shadow: inset 0 0 6px #4d4c4c;
+  outline: 1px dotted #808080;
+  outline-offset: -1px;
+}
+
+/**
+ * Annotation tooltip
+ * 1) Appears inside the iframe over any element that has an
+ *    annotation attached to it.
+ */
+.pl-c-annotation-tip {
+  align-items: center;
+  justify-content: center;
+  width: 24px !important;
+  height: 24px !important;
+  margin-top: 6px !important;
+  margin-left: 6px !important;
+  border-radius: 50% !important;
+  background-color: #222 !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  position: absolute;
+  z-index: 100;
+}
+.pl-c-annotation-tip:not([hidden]) {
+  display: flex;
+}
+
+/*# sourceMappingURL=pattern-scaffolding.css.map */
