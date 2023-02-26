@@ -1,0 +1,59 @@
+{
+  "name": "development-edition-engine-twig-php",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/development-edition-engine-twig-php/src",
+  "projectType": "library",
+  "implicitDependencies": [
+    "cli",
+    "core",
+    "engine-twig-php",
+    "engine-mustache",
+    "starterkit-twig-demo",
+    "uikit-workshop"
+  ],
+  "targets": {
+    "pl:build": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "pl:build"
+      },
+      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+    },
+    "pl:help": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "pl:help"
+      },
+      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+    },
+    "pl:install": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "pl:install"
+      },
+      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+    },
+    "pl:serve": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "pl:serve"
+      },
+      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+    },
+    "pl:starterkit": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "pl:starterkit"
+      },
+      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+    },
+    "pl:version": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "pl:version"
+      },
+      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+    }
+  },
+  "tags": []
+}
