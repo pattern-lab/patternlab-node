@@ -34,9 +34,10 @@ export class EngineMustache implements PatternLabEngine {
   engineFileExtension = ['.mustache'];
   expandPartials = true;
 
-  renderPattern(pattern: Pattern, data: PatternData): Promise<string> {
+  // TODO: partials via the render pattern is a bit hacky
+  renderPattern(pattern: Pattern, data: PatternData, partials?: any): Promise<string> {
     try {
-      return Promise.resolve(this.engine.render(pattern.extendedTemplate, data));
+      return Promise.resolve(this.engine.render(pattern.extendedTemplate, data, partials));
     } catch (e) {
       console.log('e = ', e);
       return Promise.reject(e);

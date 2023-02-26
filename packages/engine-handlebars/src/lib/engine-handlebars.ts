@@ -40,7 +40,12 @@ export class EngineHandlebars implements PatternLabEngine {
   engineFileExtension = ['.hbs', '.handlebars'];
   expandPartials = false;
 
-  renderPattern(pattern: Pattern, data: PatternData): Promise<string> {
+  // TODO: partials via the render pattern is a bit hacky
+  renderPattern(pattern: Pattern, data: PatternData, partials?: any): Promise<string> {
+    if (partials) {
+      this.engine.registerPartial(partials);
+    }
+
     const compiled = this.engine.compile(this.escapeAtPartialBlock(pattern.template));
 
     return Promise.resolve(compiled(data));
