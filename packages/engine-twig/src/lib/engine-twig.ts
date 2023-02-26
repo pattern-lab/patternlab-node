@@ -51,7 +51,7 @@ export class EngineTwig implements PatternLabEngine {
     /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g;
 
   renderPattern(pattern: Pattern, data: PatternData, _partials?: PatternPartial): Promise<string> {
-    let patternPath = pattern.basePattern ? pattern.basePattern.relPath : pattern.relPath;
+    let patternPath = pattern.basePattern?.relPath || pattern.relPath;
     if (this.metaPath && patternPath.lastIndexOf(this.metaPath) === 0) {
       patternPath = patternPath.substring(this.metaPath.length + 1);
     }
@@ -59,9 +59,7 @@ export class EngineTwig implements PatternLabEngine {
   }
 
   registerPartial(pattern: Pattern): void {
-    console.log(
-      `registerPartial(${pattern.name} - ${pattern.patternPartial} - ${pattern.patternPath} - ${pattern.relPath})`,
-    );
+    console.log(`registerPartial(${pattern.name} - ${pattern.patternPartial} - ${pattern.relPath})`);
     patternLabLoader.registerPartial(pattern);
   }
 
@@ -148,7 +146,7 @@ export class EngineTwig implements PatternLabEngine {
     }
   }
 
-  spawnFile(config: PatternLabConfig, fileName: string): void {
+  private spawnFile(config: PatternLabConfig, fileName: string): void {
     const metaFilePath = path.resolve(config.paths.source.meta, fileName);
     try {
       fs.statSync(metaFilePath);

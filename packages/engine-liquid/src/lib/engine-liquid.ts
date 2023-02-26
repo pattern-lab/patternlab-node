@@ -71,7 +71,7 @@ export class EngineLiquid implements PatternLabEngine {
     return foundPatternPartial.split(':')[0];
   }
 
-  spawnFile(config: PatternLabConfig, fileName: string): void {
+  private spawnFile(config: PatternLabConfig, fileName: string): void {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
 

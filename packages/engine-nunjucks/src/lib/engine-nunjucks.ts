@@ -95,7 +95,7 @@ export class EngineNunjucks implements PatternLabEngine {
     return '';
   }
 
-  spawnFile(config: PatternLabConfig, fileName: string): void {
+  private spawnFile(config: PatternLabConfig, fileName: string): void {
     const paths = config.paths;
     const metaFilePath = path.resolve(paths.source.meta, fileName);
     try {

@@ -160,7 +160,7 @@ export class EngineTwigPhp implements PatternLabEngine {
     }
   }
 
-  spawnFile(config: PatternLabConfig, fileName: string): void {
+  private spawnFile(config: PatternLabConfig, fileName: string): void {
     const metaFilePath = path.resolve(config.paths.source.meta, fileName);
     try {
       fs.statSync(metaFilePath);
