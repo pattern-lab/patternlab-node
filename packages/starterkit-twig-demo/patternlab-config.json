@@ -45,7 +45,7 @@
           "id": "macros",
           "recursive": true,
           "paths": [
-            "source/_macros"
+            "source/_patterns/macros"
           ]
         }
       ]
