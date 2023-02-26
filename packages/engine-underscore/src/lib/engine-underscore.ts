@@ -13,7 +13,7 @@
  *
  */
 
-import { Pattern, PatternData, PatternLabConfig, PatternLabEngine, PatternPartial } from '@pattern-lab/types';
+import { Pattern, PatternData, PatternLabConfig, PatternLabEngine } from '@pattern-lab/types';
 import fs from 'fs-extra';
 import path from 'path';
 import _, { CompiledTemplate } from 'underscore';
@@ -93,7 +93,7 @@ export class EngineUnderscore implements PatternLabEngine {
   findListItemsRE =
     /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g;
 
-  renderPattern(pattern: Pattern, data: PatternData, partials?: PatternPartial | undefined): Promise<string> {
+  renderPattern(pattern: Pattern, data: PatternData): Promise<string> {
     let renderedHTML: string;
     let compiled: CompiledTemplate | null = null;
 
@@ -109,17 +109,12 @@ export class EngineUnderscore implements PatternLabEngine {
     // process if we don't handle them.
     try {
       if (compiled) {
-        renderedHTML = compiled(
-          _.extend(data || {}, {
-            _allData: data,
-            _partials: partials,
-          }),
-        );
+        renderedHTML = compiled(_.extend(data || {}, { _allData: data }));
       } else {
         renderedHTML = this.renderError(pattern, new Error());
       }
-    } catch (e: any) {
-      renderedHTML = this.renderError(pattern, e);
+    } catch (e: unknown) {
+      renderedHTML = this.renderError(pattern, e as Error);
     }
 
     return Promise.resolve(renderedHTML);
@@ -149,8 +144,7 @@ export class EngineUnderscore implements PatternLabEngine {
   }
 
   findPartials(pattern: Pattern): RegExpMatchArray | null {
-    const matches = pattern.template.match(this.findPartialsRE);
-    return matches;
+    return pattern.template.match(this.findPartialsRE);
   }
 
   findPartialsWithPatternParameters(_pattern: Pattern): RegExpMatchArray | null {

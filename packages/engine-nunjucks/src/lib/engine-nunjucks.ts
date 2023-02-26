@@ -15,10 +15,10 @@
  *
  */
 
-import { PatternLabEngine, Pattern, PatternData, PatternLabConfig, PatternPartial } from '@pattern-lab/types';
+import { Pattern, PatternData, PatternLabConfig, PatternLabEngine } from '@pattern-lab/types';
 import fs from 'fs-extra';
-import path from 'path';
 import nunjucks from 'nunjucks';
+import path from 'path';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare function require(moduleName: string): any;
@@ -39,11 +39,10 @@ class PatternLoader implements nunjucks.ILoader {
 }
 
 export class EngineNunjucks implements PatternLabEngine {
+  private engine!: nunjucks.Environment;
   engineName = 'nunjucks';
   engineFileExtension = ['.njk'];
   expandPartials = false;
-
-  env?: nunjucks.Environment;
 
   // regexes, stored here so they're only compiled once
   private findPartialsRE = /{%\s*(?:extends|include|import|from)\s+(?:'[^']+'|"[^"]+").*%}/g;
@@ -52,9 +51,9 @@ export class EngineNunjucks implements PatternLabEngine {
   private findListItemsRE =
     /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g;
 
-  renderPattern(pattern: Pattern, data: PatternData, _partials?: PatternPartial): Promise<string> {
+  renderPattern(pattern: Pattern, data: PatternData): Promise<string> {
     try {
-      const result = this.env?.renderString(pattern.extendedTemplate, data);
+      const result = this.engine.renderString(pattern.extendedTemplate || pattern.template, data);
       return Promise.resolve(result || '');
     } catch (err) {
       console.error('Failed to render pattern: ' + pattern.name);
@@ -115,7 +114,7 @@ export class EngineNunjucks implements PatternLabEngine {
   usePatternLabConfig(config: PatternLabConfig): void {
     // Create Pattern Loader
     // Since Pattern Lab includes are not path based we need a custom loader for Nunjucks.
-    this.env = new nunjucks.Environment(new PatternLoader(config));
+    this.engine = new nunjucks.Environment(new PatternLoader(config));
 
     let helpers: string[] = [];
 
@@ -139,7 +138,7 @@ export class EngineNunjucks implements PatternLabEngine {
         try {
           const nunjucksConfig = require(nunjucksConfigPath);
           if (typeof nunjucksConfig === 'function') {
-            nunjucksConfig(this.env);
+            nunjucksConfig(this.engine);
           } else {
             console.error(`Failed to load Nunjucks extension: Expected ${extensionPath} to export a function.`);
           }

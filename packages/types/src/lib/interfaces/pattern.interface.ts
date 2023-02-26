@@ -2,8 +2,6 @@ import { PatternLab } from './pattern-lab.interface';
 
 export type PatternData = Record<string, unknown>;
 
-export type PatternPartial = Record<string, any>;
-
 export type CompileStateKey = 'NEEDS_REBUILD' | 'BUILDING' | 'CLEAN';
 export type CompileState = Record<CompileStateKey, string>;
 
@@ -200,7 +198,7 @@ export interface Pattern {
    * @see {@link PatternEngine.renderPattern}
    * @returns The rendered pattern
    */
-  render: (data: PatternData, partials: PatternPartial) => Promise<string>;
+  render: (data: PatternData) => Promise<string>;
 
   /**
    * Register a partial for the pattern engine

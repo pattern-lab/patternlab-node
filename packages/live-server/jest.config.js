@@ -1,7 +1,7 @@
 /* eslint-disable */
 module.exports = {
   displayName: 'live-server',
-  preset: '../../../jest.preset.js',
+  preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -12,5 +12,5 @@ module.exports = {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../coverage/packages/live-server',
+  coverageDirectory: '../../coverage/packages/live-server',
 };

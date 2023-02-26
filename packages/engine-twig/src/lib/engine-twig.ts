@@ -21,7 +21,6 @@ import {
   PatternEngineConfigTwig,
   PatternLabConfig,
   PatternLabEngine,
-  PatternPartial,
 } from '@pattern-lab/types';
 import fs from 'fs-extra';
 import path from 'path';
@@ -50,7 +49,7 @@ export class EngineTwig implements PatternLabEngine {
   findListItemsRE =
     /({{#( )?)(list(I|i)tems.)(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)( )?}}/g;
 
-  renderPattern(pattern: Pattern, data: PatternData, _partials?: PatternPartial): Promise<string> {
+  renderPattern(pattern: Pattern, data: PatternData): Promise<string> {
     let patternPath = pattern.basePattern?.relPath || pattern.relPath;
     if (this.metaPath && patternPath.lastIndexOf(this.metaPath) === 0) {
       patternPath = patternPath.substring(this.metaPath.length + 1);

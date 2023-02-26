@@ -10,7 +10,7 @@
 
 // todo: document this exact regex long form.
 export const partialsRE = new RegExp(
-  /{%\\include\\\s*?([\w\-./~]+)(?::[A-Za-z0-9-_|]+)?(?:(?:| )\(.*)?(?:\s*)?%}/g,
+  /{[%{]\s*.*?(?:render|include|layout)\(?\s*['"](.+?)['"][\s\S]*?\)?\s*[%}]}/g,
 );
 
 // look for an opening mustache include tag, followed by >=0 whitespaces

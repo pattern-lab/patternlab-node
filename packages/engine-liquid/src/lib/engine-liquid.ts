@@ -6,7 +6,7 @@
  *
  */
 
-import { PatternLabEngine, Pattern, PatternData, PatternLabConfig, PatternPartial } from '@pattern-lab/types';
+import { Pattern, PatternData, PatternLabConfig, PatternLabEngine } from '@pattern-lab/types';
 import fs from 'fs-extra';
 import { Liquid } from 'liquidjs';
 import path from 'path';
@@ -23,15 +23,11 @@ export class EngineLiquid implements PatternLabEngine {
   engineFileExtension = ['.liquid', '.html'];
   expandPartials = false;
 
-  renderPattern(pattern: Pattern, data: PatternData, _partials?: PatternPartial): Promise<string> {
+  renderPattern(pattern: Pattern, data: PatternData): Promise<string> {
     return this.engine
       .parseAndRender(pattern.template, data)
-      .then(function (html) {
-        return html;
-      })
-      .catch(function (ex) {
-        console.log(40, ex);
-      });
+      .then((html) => html)
+      .catch((ex) => console.log(40, ex));
   }
 
   registerPartial(_pattern: Pattern): void {
@@ -55,6 +51,7 @@ export class EngineLiquid implements PatternLabEngine {
   }
 
   findPartial(partialString: string): string {
+    // TODO: this is mustache specific code in the liquid engine - fix this
     //strip out the template cruft
     let foundPatternPartial = partialString
       .replace('{{> ', '')

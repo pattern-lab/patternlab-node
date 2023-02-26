@@ -20,11 +20,11 @@
  *
  */
 
+import { Pattern, PatternData, PatternLabConfig, PatternLabEngine } from '@pattern-lab/types';
 import fs from 'fs-extra';
-import path from 'path';
-import Handlebars from 'handlebars';
 import glob from 'glob';
-import { PatternLabEngine, Pattern, PatternData, PatternLabConfig, PatternPartial } from '@pattern-lab/types';
+import Handlebars from 'handlebars';
+import path from 'path';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare function require(moduleName: string): any;
@@ -40,11 +40,7 @@ export class EngineHandlebars implements PatternLabEngine {
   engineFileExtension = ['.hbs', '.handlebars'];
   expandPartials = false;
 
-  renderPattern(pattern: Pattern, data: PatternData, partials?: PatternPartial): Promise<string> {
-    if (partials) {
-      this.engine.registerPartial(partials);
-    }
-
+  renderPattern(pattern: Pattern, data: PatternData): Promise<string> {
     const compiled = this.engine.compile(this.escapeAtPartialBlock(pattern.template));
 
     return Promise.resolve(compiled(data));

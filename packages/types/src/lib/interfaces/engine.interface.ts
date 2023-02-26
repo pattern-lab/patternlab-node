@@ -1,5 +1,5 @@
 import { PatternLabConfig } from './pattern-lab-config.interface';
-import { Pattern, PatternData, PatternPartial } from './pattern.interface';
+import { Pattern, PatternData } from './pattern.interface';
 
 export interface PatternLabEngine {
   /**
@@ -24,10 +24,9 @@ export interface PatternLabEngine {
    * Render the pattern template with the given data and partials
    * @param pattern the pattern to render
    * @param data additional data to pass to the pattern template
-   * @param partials partials to pass to the pattern template or which need to be added to the engine)
    * @returns the rendered pattern
    */
-  renderPattern: (pattern: Pattern, data: PatternData, partials?: PatternPartial) => Promise<string>;
+  renderPattern: (pattern: Pattern, data: PatternData) => Promise<string>;
 
   /**
    * Register a pattern to the engine so that it can be used in the render process later on

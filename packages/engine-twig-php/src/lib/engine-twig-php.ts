@@ -10,9 +10,6 @@
  */
 
 import TwigRenderer from '@basalt/twig-renderer';
-import fs from 'fs-extra';
-import path from 'path';
-import chalk from 'chalk';
 import {
   Pattern,
   PatternData,
@@ -20,8 +17,10 @@ import {
   PatternEngineNamespaceOptions,
   PatternLabConfig,
   PatternLabEngine,
-  PatternPartial,
 } from '@pattern-lab/types';
+import chalk from 'chalk';
+import fs from 'fs-extra';
+import path from 'path';
 
 export class EngineTwigPhp implements PatternLabEngine {
   private engine!: TwigRenderer;
@@ -35,7 +34,7 @@ export class EngineTwigPhp implements PatternLabEngine {
   namespaces: PatternEngineNamespaceOptions[] = [];
   patternLabConfig?: PatternLabConfig;
 
-  renderPattern(pattern: Pattern, data: PatternData, _partials?: PatternPartial): Promise<string> {
+  renderPattern(pattern: Pattern, data: PatternData): Promise<string> {
     return new Promise((resolve, reject) => {
       // If this is a pseudo pattern the relPath will be incorrect.
       // i.e. /path/to/pattern.json

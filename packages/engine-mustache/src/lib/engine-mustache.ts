@@ -17,7 +17,7 @@
  *
  */
 
-import { PatternLabEngine, Pattern, PatternData, PatternLabConfig, PatternPartial } from '@pattern-lab/types';
+import { PatternLabEngine, Pattern, PatternData, PatternLabConfig } from '@pattern-lab/types';
 import fs from 'fs-extra';
 import path from 'path';
 import {
@@ -34,9 +34,9 @@ export class EngineMustache implements PatternLabEngine {
   engineFileExtension = ['.mustache'];
   expandPartials = true;
 
-  renderPattern(pattern: Pattern, data: PatternData, partials?: PatternPartial): Promise<string> {
+  renderPattern(pattern: Pattern, data: PatternData): Promise<string> {
     try {
-      return Promise.resolve(this.engine.render(pattern.extendedTemplate, data, partials));
+      return Promise.resolve(this.engine.render(pattern.extendedTemplate, data));
     } catch (e) {
       console.log('e = ', e);
       return Promise.reject(e);
