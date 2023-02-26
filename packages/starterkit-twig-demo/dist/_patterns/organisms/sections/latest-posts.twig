@@ -2,7 +2,7 @@
     <h2 class="section-title">Latest Posts</h2>
     <ul class="post-list">
     {% for post in latest_posts %}
-      <li>{% include "@molecules/blocks/media-block.twig" %}</li>
+      <li>{% include "@molecules/blocks/media-block.twig" with post %}</li>
     {% endfor %}
   </ul>
     <a href="#" class="text-btn">View more posts</a>
