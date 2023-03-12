@@ -7,7 +7,7 @@
     "@basalt/twig-renderer": "^2.0.0",
     "@pattern-lab/core": "^6.0.1",
     "chalk": "^4.1.0",
-    "fs-extra": "10.0.0"
+    "fs-extra": "11.1.0"
   },
   "keywords": [
     "Pattern Lab",

@@ -4,7 +4,7 @@
   "version": "6.0.0",
   "main": "lib/engine_mustache.js",
   "dependencies": {
-    "fs-extra": "10.0.0",
+    "fs-extra": "11.1.0",
     "mustache": "3.1.0"
   },
   "keywords": [
