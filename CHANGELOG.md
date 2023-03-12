@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.3](https://github.com/pattern-lab/patternlab-node/compare/v6.0.2...v6.0.3) (2023-03-12)
+
+
+### Bug Fixes
+
+* subitems menu height restricted only for horizontal mode ([#1492](https://github.com/pattern-lab/patternlab-node/issues/1492)) ([e65f294](https://github.com/pattern-lab/patternlab-node/commit/e65f294d9cbf032fd7fd03d9f957500949db5440))
+
+
+
+
+
 ## [6.0.2](https://github.com/pattern-lab/patternlab-node/compare/v6.0.1...v6.0.2) (2023-02-26)
 
 
