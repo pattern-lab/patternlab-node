@@ -114,7 +114,7 @@
         "organisms": "source/_patterns/organisms/",
         "templates": "source/_patterns/templates/",
         "pages": "source/_patterns/pages/",
-        "macros": "source/_macros/"
+        "macros": "source/_patterns/macros/"
       }
     }
   }

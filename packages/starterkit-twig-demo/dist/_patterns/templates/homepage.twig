@@ -4,13 +4,13 @@
         {% include "@molecules/messaging/alert.twig" with emergency %}
     {% endif %}
     {% if hero %}
-        {% include "@molecules/blocks/block-hero.twig" %}
+        {% include "@molecules/blocks/block-hero.twig" with hero %}
     {% endif %}
 
     <div class="g g-3up">
         {% for tout in touts %}
             <div class="gi">
-                {% include "@molecules/blocks/block-inset.twig" %}
+                {% include "@molecules/blocks/block-inset.twig" with tout %}
             </div>
         {% endfor %}
     </div><!--end 3up-->
@@ -23,7 +23,7 @@
         <h2 class="section-title">Latest Posts</h2>
         <ul class="post-list">
             {% for post in latest_posts %}
-                <li>{% include "@molecules/blocks/media-block.twig" %}</li>
+                <li>{% include "@molecules/blocks/media-block.twig" with post %}</li>
             {% endfor %}
         </ul>
         <a href="#" class="text-btn">View more posts</a>
