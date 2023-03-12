@@ -198,7 +198,7 @@ Other engine specific configuration options can be added and will be passed to t
   "engines": {
     "handlebars": {
       "package": "@pattern-lab/engine-handlebars",
-      "extensions": [
+      "fileExtensions": [
         "handlebars",
         "hbs"
       ],

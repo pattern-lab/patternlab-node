@@ -86,7 +86,7 @@
     "first_name": "Author",
     "last_name": "Name"
   },
-  "hero": true,
+  "hero": {},
   "emergency" : false,
   "touts" : [
     { },
