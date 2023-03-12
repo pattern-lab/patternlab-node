@@ -16,7 +16,7 @@
     "deepmerge": "^4.2.2",
     "execa": "5.0.0",
     "fs-extra": "11.1.0",
-    "glob": "7.1.6",
+    "glob": "8.1.0",
     "has-yarn": "2.1.0",
     "inquirer": "8.0.0",
     "lodash": "4.17.21",
