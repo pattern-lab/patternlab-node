@@ -75,7 +75,7 @@
     "postcss": "^8.2.8",
     "postcss-loader": "^7.0.2",
     "preact": "^10.0.5",
-    "preact-render-to-string": "^5.1.1",
+    "preact-render-to-string": "^6.0.2",
     "preload-webpack-plugin": "^3.0.0-beta.3",
     "pretty": "^2.0.0",
     "prismjs": "^1.25.0",
