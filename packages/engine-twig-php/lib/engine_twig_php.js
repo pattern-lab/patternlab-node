@@ -26,7 +26,6 @@ const engine_twig_php = {
   engine: TwigRenderer,
   engineName: 'twig-php',
   engineFileExtension: '.twig',
-  expandPartials: false,
   findPartialsRE:
     /{[%{]\s*.*?(?:extends|include|embed|from|import|use)\(?\s*['"](.+?)['"][\s\S]*?\)?\s*[%}]}/g,
   namespaces: [],

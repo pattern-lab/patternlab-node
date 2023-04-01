@@ -54,10 +54,6 @@ const engine_handlebars = {
   engineName: 'handlebars',
   engineFileExtension: ['.hbs', '.handlebars'],
 
-  // partial expansion is only necessary for Mustache templates that have
-  // style modifiers or pattern parameters (I think)
-  expandPartials: false,
-
   // render it
   renderPattern: function renderPattern(pattern, data, partials) {
     if (partials) {

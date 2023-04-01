@@ -4,7 +4,6 @@ const logger = require('./log');
 const lh = require('./lineage_hunter');
 const lih = require('./list_item_hunter');
 const addPattern = require('./addPattern');
-const expandPartials = require('./expandPartials');
 
 const lineage_hunter = new lh();
 const list_item_hunter = new lih();
