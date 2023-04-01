@@ -8481,10 +8481,10 @@ http-auth-connect@^1.0.5:
   resolved "https://registry.yarnpkg.com/http-auth-connect/-/http-auth-connect-1.0.6.tgz#7b9fd411f8806efd1244e703477171c08396d503"
   integrity sha512-yaO0QSCPqGCjPrl3qEEHjJP+lwZ6gMpXLuCBE06eWwcXomkI5TARtu0kxf9teFuBj6iaV3Ybr15jaWUvbzNzHw==
 
-http-auth@4.1.x:
-  version "4.1.9"
-  resolved "https://registry.yarnpkg.com/http-auth/-/http-auth-4.1.9.tgz#9f3204422a1d6ee53122c041711e61e8303a323e"
-  integrity sha512-kvPYxNGc9EKGTXvOMnTBQw2RZfuiSihK/mLw/a4pbtRueTE45S55Lw/3k5CktIf7Ak0veMKEIteDj4YkNmCzmQ==
+http-auth@4.2.x:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/http-auth/-/http-auth-4.2.0.tgz#9bb119ba22273b63a50796363d298eed3bdbadae"
+  integrity sha512-trIkGI7dgnFJ5k8YaQFSr1Q5uq9c19vK6Y9ZCjlY0zBEQgdJpXZU3Cyrmk4nwrAGy4pKJhs599o7q6eicbVnhw==
   dependencies:
     apache-crypt "^1.1.2"
     apache-md5 "^1.0.6"
