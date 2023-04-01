@@ -1,8 +1,8 @@
 {
-	"emergency": {
-		"additionalClasses": "error",
-		"excerpt" : {
-			"short" : "Emergency! This is a variation of the core homepage template."
-		}
-	}
+  "emergency": {
+    "additionalClasses": "error",
+    "excerpt": {
+      "short": "Emergency! This is a variation of the core homepage template."
+    }
+  }
 }

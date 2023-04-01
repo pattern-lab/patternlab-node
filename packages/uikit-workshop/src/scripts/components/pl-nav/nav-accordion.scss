@@ -18,10 +18,9 @@
 
   .pl-c-body--theme-horizontal & {
     overflow: auto;
-  }
 
-  @media all and (min-width: $pl-bp-med) {
-    height: auto;
-    max-height: calc(100vh - #{$offset-top} - 2rem); /* 1 */
+    @media all and (min-width: $pl-bp-med) {
+      max-height: calc(100vh - #{$offset-top} - 2rem); /* 1 */
+    }
   }
 }

@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.2](https://github.com/pattern-lab/patternlab-node/compare/v6.0.1...v6.0.2) (2023-02-26)
+
+
+### Bug Fixes
+
+* **starterkit-twig-demo:** pages not rendering pattern-specific data from json ([#1490](https://github.com/pattern-lab/patternlab-node/issues/1490)) ([1c878df](https://github.com/pattern-lab/patternlab-node/commit/1c878dfa35d549f23e199b3e235ff79cb471ac86)), closes [#1486](https://github.com/pattern-lab/patternlab-node/issues/1486)
+
+
+
+
+
+## [6.0.1](https://github.com/pattern-lab/patternlab-node/compare/v6.0.0...v6.0.1) (2023-02-01)
+
+
+### Bug Fixes
+
+* **twig engine:** startup and running problems ([#1478](https://github.com/pattern-lab/patternlab-node/issues/1478)) ([e5a1904](https://github.com/pattern-lab/patternlab-node/commit/e5a19049f083315939406677b1c0480f4b420569))
+
+
+
+
+
+# [6.0.0](https://github.com/pattern-lab/patternlab-node/compare/v5.17.0...v6.0.0) (2023-01-31)
+
+
+### Features
+
+* activate prettier for scss ([#1468](https://github.com/pattern-lab/patternlab-node/issues/1468)) ([fac6ad4](https://github.com/pattern-lab/patternlab-node/commit/fac6ad4be48c95eccfe890a280cad441ee84f677))
+
+
+
+
+
 ## [5.16.4](https://github.com/pattern-lab/patternlab-node/compare/v5.16.2...v5.16.4) (2022-09-23)
 
 

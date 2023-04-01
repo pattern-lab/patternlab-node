@@ -1,8 +1,8 @@
-{% extends "@templates/layouts/site.twig" %}
+{% extends "@templates/layouts/page-2col.twig" %}
 {% block title %}<h1 class="section-title">Our Outdoor Blog</h1>{% endblock %}
 
 {% block main %}
-    {% include "@organisms/sections/latest-posts.twig" %}
+    {% include "@organisms/sections/latest-posts.twig" with { 'latest_posts': latest_posts} %}
     {% include "@molecules/navigation/pagination.twig" %}
 {% endblock %}
 

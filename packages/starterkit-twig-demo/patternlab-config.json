@@ -1,6 +1,6 @@
 {
   "engines": {
-    "twig": {
+    "twig-php": {
       "package": "@pattern-lab/engine-twig-php",
       "fileExtensions": [
         "twig"
@@ -45,7 +45,7 @@
           "id": "macros",
           "recursive": true,
           "paths": [
-            "source/_macros"
+            "source/_patterns/macros"
           ]
         }
       ]

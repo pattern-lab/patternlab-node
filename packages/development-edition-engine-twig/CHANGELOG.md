@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.3](https://github.com/pattern-lab/patternlab-node/compare/v6.0.2...v6.0.3) (2023-03-12)
+
+**Note:** Version bump only for package @pattern-lab/development-edition-engine-twig
+
+
+
+
+
+## [6.0.2](https://github.com/pattern-lab/patternlab-node/compare/v6.0.1...v6.0.2) (2023-02-26)
+
+
+### Bug Fixes
+
+* **starterkit-twig-demo:** pages not rendering pattern-specific data from json ([#1490](https://github.com/pattern-lab/patternlab-node/issues/1490)) ([1c878df](https://github.com/pattern-lab/patternlab-node/commit/1c878dfa35d549f23e199b3e235ff79cb471ac86)), closes [#1486](https://github.com/pattern-lab/patternlab-node/issues/1486)
+
+
+
+
+
+## [6.0.1](https://github.com/pattern-lab/patternlab-node/compare/v6.0.0...v6.0.1) (2023-02-01)
+
+**Note:** Version bump only for package @pattern-lab/development-edition-engine-twig
+
+
+
+
+
+# [6.0.0](https://github.com/pattern-lab/patternlab-node/compare/v5.17.0...v6.0.0) (2023-01-31)
+
+**Note:** Version bump only for package @pattern-lab/development-edition-engine-twig
+
+
+
+
+
 # [5.17.0](https://github.com/pattern-lab/patternlab-node/compare/v5.16.4...v5.17.0) (2022-09-25)
 
 **Note:** Version bump only for package @pattern-lab/development-edition-engine-twig
