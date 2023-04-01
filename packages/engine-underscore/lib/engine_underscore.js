@@ -92,10 +92,6 @@ const engine_underscore = {
   engineName: 'underscore',
   engineFileExtension: ['.html', '.underscore'],
 
-  // partial expansion is only necessary for Mustache templates that have
-  // style modifiers or pattern parameters (I think)
-  expandPartials: false,
-
   // regexes, stored here so they're only compiled once
   findPartialsRE:
     /<%=\s*_\.renderNamedPartial[ \t]*\(\s*("(?:[^"].*?)"|'(?:[^'].*?)').*?%>/g, // TODO

@@ -6,7 +6,6 @@
   "main": "gulpfile.js",
   "dependencies": {
     "@pattern-lab/core": "^6.0.1",
-    "@pattern-lab/engine-mustache": "^6.0.0",
     "@pattern-lab/engine-react": "^6.0.0",
     "@pattern-lab/uikit-workshop": "^6.0.3",
     "gulp": "4.0.2",

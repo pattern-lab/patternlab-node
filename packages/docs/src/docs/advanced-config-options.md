@@ -57,7 +57,7 @@ Possibility to define whether the initial viewport width on opening pattern lab 
 
 Sets default active pattern info code panel by file extension - if unset, uses the value out of _patternExtension_ config value, or instead use value `html` to display the html code initially, or the value defined for the _patternExtension_.
 
-**default**: _patternExtension_ value (`"hbs"` | `"mustache"` | `"twig"` | `"html"`)
+**default**: _patternExtension_ value (`"hbs"` | `"twig"` | `"html"`)
 
 ## ishControlsHide
 
@@ -149,11 +149,11 @@ Sets the configurable source and public directories for files Pattern Lab Node o
       "annotations": "./source/_annotations/",
       "styleguide": "dist/",
       "patternlabFiles": {
-        "general-header": "views/partials/general-header.mustache",
-        "general-footer": "views/partials/general-footer.mustache",
-        "patternSection": "views/partials/patternSection.mustache",
-        "patternSectionSubgroup": "views/partials/patternSectionSubgroup.mustache",
-        "viewall": "views/viewall.mustache"
+        "general-header": "views/partials/general-header.hbs",
+        "general-footer": "views/partials/general-footer.hbs",
+        "patternSection": "views/partials/patternSection.hbs",
+        "patternSectionSubgroup": "views/partials/patternSectionSubgroup.hbs",
+        "viewall": "views/viewall.hbs"
       },
       "js": "./source/js",
       "images": "./source/images",
@@ -178,7 +178,7 @@ Sets the configurable source and public directories for files Pattern Lab Node o
 
 Sets the panel name and language for the code tab on the styleguide. Since this only accepts one value, this is a place where mixed pattern trees (different PatternEngines in the same instance of Pattern Lab) does not quite work.
 
-**default**: `mustache`
+**default**: `hbs`
 
 ## engines
 

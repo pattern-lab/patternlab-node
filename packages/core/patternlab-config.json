@@ -41,15 +41,15 @@
       "styleguide": "dist/",
       "patternlabFiles": {
         "general-header":
-          "views/partials/general-header.mustache",
+          "views/partials/general-header.hbs",
         "general-footer":
-          "views/partials/general-footer.mustache",
+          "views/partials/general-footer.hbs",
         "patternSection":
-          "views/partials/patternSection.mustache",
+          "views/partials/patternSection.hbs",
         "patternSectionSubgroup":
-          "views/partials/patternSectionSubgroup.mustache",
+          "views/partials/patternSectionSubgroup.hbs",
         "viewall":
-          "views/viewall.mustache"
+          "views/viewall.hbs"
       },
       "js": "./source/js",
       "images": "./source/images",
@@ -68,7 +68,7 @@
       "css": "public/css"
     }
   },
-  "patternExtension": "mustache",
+  "patternExtension": "hbs",
   "patternStateCascade": ["inprogress", "inreview", "complete"],
   "patternExportAll": false,
   "patternExportDirectory": "pattern_exports",

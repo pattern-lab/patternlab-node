@@ -22,7 +22,7 @@ const lineage_hunter = new lh();
 // fake pattern creators
 function createFakeEmptyErrorPattern() {
   return new Pattern(
-    'molecules/toast/error.mustache', // relative path now
+    'molecules/toast/error.hbs', // relative path now
     null // data
   );
 }
@@ -61,7 +61,7 @@ function createBasePatternLabObject() {
 tap.test('find_lineage - finds lineage', function (test) {
   //setup current pattern from what we would have during execution
   var currentPattern = new Pattern(
-    'organisms/global/header.mustache', // relative path now
+    'organisms/global/header.hbs', // relative path now
     null // data
   );
   extend(currentPattern, {
@@ -77,7 +77,7 @@ tap.test('find_lineage - finds lineage', function (test) {
       Pattern.createEmpty({
         name: 'atoms-images-logo',
         subdir: 'atoms\\images',
-        filename: 'logo.mustache',
+        filename: 'logo.hbs',
         data: null,
         template:
           '<a href="/"><img src="../../images/logo.png" class="logo" alt="Logo Alt Text" /></a>',
@@ -98,7 +98,7 @@ tap.test('find_lineage - finds lineage', function (test) {
       Pattern.createEmpty({
         name: 'molecules-navigation-primary-nav',
         subdir: 'molecules\\navigation',
-        filename: 'primary-nav.mustache',
+        filename: 'primary-nav.hbs',
         data: null,
         template:
           '<nav id="nav" class="nav">\r\n\t<ul>\r\n\t\t<li><a href="#">Home</a></li>\r\n\t\t<li><a href="#">About</a></li>\r\n\t\t<li><a href="#">Blog</a></li>\r\n\t\t<li><a href="#">Contact</a></li>\r\n\t</ul>\r\n</nav><!--end .nav-->\r\n',
@@ -120,7 +120,7 @@ tap.test('find_lineage - finds lineage', function (test) {
       Pattern.createEmpty({
         name: 'molecules-forms-search',
         subdir: 'molecules\\forms',
-        filename: 'search.mustache',
+        filename: 'search.hbs',
         data: null,
         template:
           '<form action="#" method="post" class="inline-form search-form">           \r\n    <fieldset>\r\n\t    <legend class="is-vishidden">Search</legend>\r\n\t    <label for="search-field" class="is-vishidden">Search</label>\r\n\t    <input type="search" placeholder="Search" id="search-field" class="search-field" />\r\n\t    <button class="search-submit" type="submit">\r\n\t    \t<span class="icon-search" aria-hidden="true"></span>\r\n\t    \t<span class="is-vishidden">Search</span>\r\n\t    </button>\r\n    </fieldset>\r\n</form>',
@@ -178,7 +178,7 @@ tap.test(
     var patternlab = {
       graph: new PatternGraph(null, 0),
       patterns: [
-        Pattern.create('atoms/alerts/error.mustache', null, {
+        Pattern.create('atoms/alerts/error.hbs', null, {
           template: '<h1> {{message}} </h1>',
           extendedTemplate: '<h1> {{message}} </h1>',
         }),
@@ -231,9 +231,9 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = new of.Pattern('test/bar.mustache');
+    var atomPattern = new of.Pattern('test/bar.hbs');
     atomPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + 'test/bar.mustache',
+      pl.config.paths.source.patterns + 'test/bar.hbs',
       'utf8'
     );
     atomPattern.extendedTemplate = atomPattern.template;
@@ -241,9 +241,9 @@ tap.test(
 
     addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.Pattern('test/foo.mustache');
+    var consumerPattern = new of.Pattern('test/foo.hbs');
     consumerPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + 'test/foo.mustache',
+      pl.config.paths.source.patterns + 'test/foo.hbs',
       'utf8'
     );
     consumerPattern.extendedTemplate = consumerPattern.template;
@@ -268,9 +268,9 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = new of.Pattern('test/bar.mustache');
+    var atomPattern = new of.Pattern('test/bar.hbs');
     atomPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + 'test/bar.mustache',
+      pl.config.paths.source.patterns + 'test/bar.hbs',
       'utf8'
     );
     atomPattern.extendedTemplate = atomPattern.template;
@@ -278,9 +278,9 @@ tap.test(
 
     addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.Pattern('test/foo.mustache');
+    var consumerPattern = new of.Pattern('test/foo.hbs');
     consumerPattern.template = fs.readFileSync(
-      pl.config.paths.source.patterns + 'test/foo.mustache',
+      pl.config.paths.source.patterns + 'test/foo.hbs',
       'utf8'
     );
     consumerPattern.extendedTemplate = consumerPattern.template;
@@ -306,8 +306,8 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = loadPattern('test/bar.mustache', pl);
-    var consumerPattern = loadPattern('test/foo.mustache', pl);
+    var atomPattern = loadPattern('test/bar.hbs', pl);
+    var consumerPattern = loadPattern('test/foo.hbs', pl);
 
     lineage_hunter.find_lineage(consumerPattern, pl);
 
@@ -329,9 +329,9 @@ tap.test(
     //arrange
     var pl = createBasePatternLabObject();
 
-    var atomPattern = new of.Pattern('test/bar.mustache');
+    var atomPattern = new of.Pattern('test/bar.hbs');
     atomPattern.template = fs.readFileSync(
-      path.resolve(pl.config.paths.source.patterns, 'test/bar.mustache'),
+      path.resolve(pl.config.paths.source.patterns, 'test/bar.hbs'),
       'utf8'
     );
     atomPattern.extendedTemplate = atomPattern.template;
@@ -339,9 +339,9 @@ tap.test(
 
     addPattern(atomPattern, pl);
 
-    var consumerPattern = new of.Pattern('test/foo.mustache');
+    var consumerPattern = new of.Pattern('test/foo.hbs');
     consumerPattern.template = fs.readFileSync(
-      path.resolve(pl.config.paths.source.patterns, 'test/foo.mustache'),
+      path.resolve(pl.config.paths.source.patterns, 'test/foo.hbs'),
       'utf8'
     );
     consumerPattern.extendedTemplate = consumerPattern.template;
@@ -377,7 +377,7 @@ tap.test(
         Pattern.createEmpty({
           name: 'atoms-alerts-error',
           subdir: 'atoms\\alerts',
-          filename: 'error.mustache',
+          filename: 'error.hbs',
           data: null,
           template: '<h1> {{message}} </h1>',
           extendedTemplate: '<h1> {{message}} </h1>',
@@ -441,7 +441,7 @@ tap.test('find_lineage - does not apply lineage twice', function (test) {
       Pattern.createEmpty({
         name: 'atoms-alerts-error',
         subdir: 'atoms\\alerts',
-        filename: 'error.mustache',
+        filename: 'error.hbs',
         data: null,
         template: '<h1> {{message}} </h1>',
         extendedTemplate: '<h1> {{message}} </h1>',

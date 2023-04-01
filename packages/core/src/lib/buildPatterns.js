@@ -91,7 +91,7 @@ module.exports = async (deletePatternDir, patternlab, additionalData) => {
             //take the user defined head and foot and process any data and patterns that apply
 
             //todo this need to be made aware of multiple ui kits
-            //perhaps we can check for a convention like [uikitname]_00-head.mustache, and if found, add them to patternlab.uikits[uikitname].userFoot
+            //perhaps we can check for a convention like [uikitname]_head.hbs, and if found, add them to patternlab.uikits[uikitname].userFoot
             //then, if present, use those during compose()
             const headPatternPromise = processMetaPattern(
               `_head.${patternlab.config.patternExtension}`,

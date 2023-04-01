@@ -83,7 +83,7 @@ function findEnginesInConfig(config) {
 // any loaded PatternEngine by addressing them like this:
 //
 //   var PatternEngines = require('./pattern_engines/pattern_engines');
-//   var Mustache = PatternEngines['mustache'];
+//   var Handlebars = PatternEngines['handlebars'];
 //
 // Object.create lets us create an object with a specified prototype. We want
 // this here because we would like the object's "own properties" to include
@@ -103,14 +103,6 @@ const PatternEngines = Object.create({
     const enginesInConfig = findEnginesInConfig(patternLabConfig);
 
     if (enginesInConfig) {
-      // Quick fix until we've removed @pattern-lab/engine-mustache, starting with https://github.com/pattern-lab/patternlab-node/issues/1239 & https://github.com/pattern-lab/patternlab-node/pull/1455
-      // @TODO: Remove after removing @pattern-lab/engine-mustache dependency
-      enginesInConfig.mustache = enginesInConfig.mustache || {};
-      enginesInConfig.mustache.package =
-        enginesInConfig.mustache.package || '@pattern-lab/engine-mustache';
-      enginesInConfig.mustache.extensions =
-        enginesInConfig.mustache.extensions || 'mustache';
-
       // Try loading each of the configured pattern engines
       // eslint-disable-next-line guard-for-in
       for (const name in enginesInConfig) {
@@ -239,9 +231,9 @@ const PatternEngines = Object.create({
       }
     }
 
-    // otherwise, assume it's a plain mustache template string and act
+    // otherwise, assume it's a plain handlebars template string and act
     // accordingly
-    return 'mustache';
+    return 'handlebars';
   },
 
   /**

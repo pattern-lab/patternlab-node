@@ -87,9 +87,6 @@ var engine_react = {
   engineName: 'react',
   engineFileExtension: ['.jsx', '.js'],
 
-  // hell no
-  expandPartials: false,
-
   // regexes, stored here so they're only compiled once
   findPartialsRE: /import .* from '[^']+'/g,
   findPartialsWithStyleModifiersRE: null,

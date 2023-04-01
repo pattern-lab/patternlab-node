@@ -46,7 +46,7 @@ tap.test('pseudpattern found and added as a pattern', function (test) {
   //arrange
   var pl = stubPatternlab();
 
-  var atomPattern = loadPattern('test/styled-atom.mustache', pl);
+  var atomPattern = loadPattern('test/styled-atom.hbs', pl);
   addPattern(atomPattern, pl);
 
   //act
@@ -70,7 +70,7 @@ tap.test('pseudpattern does not pollute base pattern data', function (test) {
   //arrange
   var pl = stubPatternlab();
 
-  var atomPattern = loadPattern('test/styled-atom.mustache', pl);
+  var atomPattern = loadPattern('test/styled-atom.hbs', pl);
 
   //act
   var patternCountBefore = pl.patterns.length;
@@ -88,18 +88,18 @@ tap.test('pseudpattern variant includes parameteredPartials', function (test) {
   //arrange
   var pl = stubPatternlab();
 
-  var atomPattern = new Pattern('test/styled-atom.mustache');
+  var atomPattern = new Pattern('test/styled-atom.hbs');
   atomPattern.template = fs.readFileSync(
-    patterns_dir + 'test/styled-atom.mustache',
+    patterns_dir + 'test/styled-atom.hbs',
     'utf8'
   );
   atomPattern.extendedTemplate = atomPattern.template;
   atomPattern.parameteredPartials =
     atomPattern.findPartialsWithPatternParameters(atomPattern);
 
-  var pseudoPattern = new Pattern('test/pseudomodifier.mustache');
+  var pseudoPattern = new Pattern('test/pseudomodifier.hbs');
   pseudoPattern.template = fs.readFileSync(
-    patterns_dir + 'test/pseudomodifier.mustache',
+    patterns_dir + 'test/pseudomodifier.hbs',
     'utf8'
   );
   pseudoPattern.extendedTemplate = atomPattern.template;
@@ -124,7 +124,7 @@ tap.test('pseudo pattern variant data should merge arrays', function (test) {
   const pl = stubPatternlab();
   pl.config.patternMergeVariantArrays = true;
 
-  const pattern = loadPattern('test/variant-test.mustache', pl);
+  const pattern = loadPattern('test/variant-test.hbs', pl);
 
   addPattern(pattern, pl);
 
@@ -146,7 +146,7 @@ tap.test(
   function (test) {
     const pl = stubPatternlab();
 
-    const pattern = loadPattern('test/variant-test.mustache', pl);
+    const pattern = loadPattern('test/variant-test.hbs', pl);
 
     addPattern(pattern, pl);
 
@@ -168,7 +168,7 @@ tap.test('pseudo pattern variant data should override arrays', function (test) {
   const pl = stubPatternlab();
   pl.config.patternMergeVariantArrays = false;
 
-  const pattern = loadPattern('test/variant-test.mustache', pl);
+  const pattern = loadPattern('test/variant-test.hbs', pl);
 
   addPattern(pattern, pl);
 

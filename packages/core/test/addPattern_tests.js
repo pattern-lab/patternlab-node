@@ -14,7 +14,7 @@ tap.test(
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var pattern = new Pattern('test/bar.mustache');
+    var pattern = new Pattern('test/bar.hbs');
     pattern.extendedTemplate = 'barExtended';
     pattern.template = 'bar';
 
@@ -35,7 +35,7 @@ tap.test(
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var pattern = new Pattern('test/bar.mustache');
+    var pattern = new Pattern('test/bar.hbs');
     pattern.extendedTemplate = undefined;
     pattern.template = 'bar';
 

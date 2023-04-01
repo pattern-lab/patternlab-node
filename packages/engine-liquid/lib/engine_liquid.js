@@ -38,10 +38,6 @@ module.exports = {
   engineFileExtension: ['.liquid', '.html'],
   isAsync: true,
 
-  // // partial expansion is only necessary for Mustache templates that have
-  // // style modifiers or pattern parameters (I think)
-  // expandPartials: true,
-
   // regexes, stored here so they're only compiled once
   findPartialsRE: utils.partialsRE,
   findPartialsWithStyleModifiersRE: utils.partialsWithStyleModifiersRE,

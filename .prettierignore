@@ -15,3 +15,5 @@ packages/**/annotations.js
 **/_meta/_head.*
 **/_meta/_foot.*
 **/development-edition*/source/_patterns/**
+# Ignoring handlebars template files that contain partials because of https://github.com/prettier/prettier/issues/11834
+packages/core/test/**/*.hbs

@@ -104,8 +104,8 @@ const engine_mustache = {
    * assume it's already present
    */
   spawnMeta: function (config) {
-    this.spawnFile(config, '_head.mustache');
-    this.spawnFile(config, '_foot.mustache');
+    this.spawnFile(config, '_head.hbs');
+    this.spawnFile(config, '_foot.hbs');
   },
 
   // find and return any {{> template-name }} within pattern

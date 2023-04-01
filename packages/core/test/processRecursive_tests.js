@@ -20,10 +20,10 @@ tap.test('processRecursive recursively includes partials', function (test) {
   //assert
   const patternlab = util.fakePatternLab(patterns_dir);
 
-  var fooPatternPath = path.join('test', 'foo.mustache');
+  var fooPatternPath = path.join('test', 'foo.hbs');
   var fooPattern = loadPattern(fooPatternPath, patternlab);
 
-  var barPatternPath = path.join('test', 'bar.mustache');
+  var barPatternPath = path.join('test', 'bar.hbs');
   var barPattern = loadPattern(barPatternPath, patternlab);
 
   var p1 = processIterative(fooPattern, patternlab);
@@ -52,13 +52,13 @@ tap
     //arrange
     const patternlab = util.fakePatternLab(patterns_dir);
 
-    var atomPath = path.join('test', 'bar.mustache');
+    var atomPath = path.join('test', 'bar.hbs');
     var atomPattern = loadPattern(atomPath, patternlab);
 
-    var templatePath = path.join('test', 'foo.mustache');
+    var templatePath = path.join('test', 'foo.hbs');
     var templatePattern = loadPattern(templatePath, patternlab);
 
-    var pagesPath = path.join('test', 'inception.mustache');
+    var pagesPath = path.join('test', 'inception.hbs');
     var pagesPattern = loadPattern(pagesPath, patternlab);
 
     var p1 = processIterative(atomPattern, patternlab);
@@ -114,10 +114,10 @@ tap.test('hidden patterns can be called by their nice names', function (test) {
   const patternlab = util.fakePatternLab(patterns_dir);
 
   //act
-  var hiddenPatternPath = path.join('test', '_hidden-pattern.mustache');
+  var hiddenPatternPath = path.join('test', '_hidden-pattern.hbs');
   var hiddenPattern = loadPattern(hiddenPatternPath, patternlab);
 
-  var testPatternPath = path.join('test', 'hidden-pattern-tester.mustache');
+  var testPatternPath = path.join('test', 'hidden-pattern-tester.hbs');
   var testPattern = loadPattern(testPatternPath, patternlab);
 
   var p1 = processIterative(hiddenPattern, patternlab);
@@ -149,7 +149,7 @@ tap.test(
     //arrange
     var pl = util.fakePatternLab(patterns_dir);
 
-    var testPatternPath = path.join('test', 'bar.mustache');
+    var testPatternPath = path.join('test', 'bar.hbs');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //act
@@ -176,7 +176,7 @@ tap.test(
     //arrange
     var pl = util.fakePatternLab(patterns_dir);
 
-    var testPatternPath = path.join('test', 'bar.mustache');
+    var testPatternPath = path.join('test', 'bar.hbs');
     var testPattern = loadPattern(testPatternPath, pl);
 
     //act

@@ -48,7 +48,7 @@ For example, if we added an `scss` tab:
 
 ```
 ./_patterns/foo/bar
-├── pattern.mustache (the pattern template)
+├── pattern.hbs (the pattern template)
 ├── pattern.md (optional pattern-specific documentation and metadata)
 ├── pattern.json (optional pattern-specific data)
 └── pattern.scss (a file matching the tab you added.)

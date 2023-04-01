@@ -11,7 +11,6 @@ before_install:
 
 before_script:
   - yarn run setup
-  - npx lerna add @pattern-lab/engine-mustache --scope=@pattern-lab/core
   - npx lerna add @pattern-lab/engine-handlebars --scope=@pattern-lab/core
   - npx lerna add @pattern-lab/engine-underscore --scope=@pattern-lab/core
   - npx lerna add @pattern-lab/engine-liquid --scope=@pattern-lab/core

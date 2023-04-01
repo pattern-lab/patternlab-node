@@ -33,9 +33,6 @@ const engine_nunjucks = {
   engineName: 'nunjucks',
   engineFileExtension: '.njk',
 
-  //Important! Must be false for Nunjucks' block inheritance to work. Otherwise Nunjucks sees them as being defined more than once.
-  expandPartials: false,
-
   // regexes, stored here so they're only compiled once
   findPartialsRE:
     /{%\s*(?:extends|include|import|from)\s+(?:'[^']+'|"[^"]+").*%}/g,

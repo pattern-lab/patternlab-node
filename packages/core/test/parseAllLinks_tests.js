@@ -36,7 +36,7 @@ tap.test(
     );
 
     // copies essential logic from loadPattern
-    const navPattern = new Pattern('test/nav.mustache', {}, patternlab);
+    const navPattern = new Pattern('test/nav.hbs', {}, patternlab);
     const patternData = dataLoader.loadDataFromFile(
       path.resolve(
         __dirname,

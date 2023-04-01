@@ -32,7 +32,6 @@
     "@pattern-lab/cli": "^6.0.1",
     "@pattern-lab/core": "^6.0.1",
     "@pattern-lab/engine-handlebars": "^6.0.0",
-    "@pattern-lab/engine-mustache": "^6.0.0",
     "@pattern-lab/plugin-tab": "^6.0.0",
     "@pattern-lab/starterkit-handlebars-demo": "^6.0.0",
     "@pattern-lab/uikit-workshop": "^6.0.3"

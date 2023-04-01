@@ -4,7 +4,6 @@ const logger = require('./log');
 const lh = require('./lineage_hunter');
 const lih = require('./list_item_hunter');
 const addPattern = require('./addPattern');
-const expandPartials = require('./expandPartials');
 
 const lineage_hunter = new lh();
 const list_item_hunter = new lih();
@@ -28,8 +27,6 @@ module.exports = function (pattern, patternlab, ignoreLineage) {
     patternlab
   );
 
-  const expandPartialPromise = expandPartials(pattern, patternlab);
-
   let lineagePromise;
 
   //find pattern lineage
@@ -46,12 +43,9 @@ module.exports = function (pattern, patternlab, ignoreLineage) {
     addPattern(pattern, patternlab);
   });
 
-  return Promise.all([
-    listItemPromise,
-    expandPartialPromise,
-    lineagePromise,
-    addPromise,
-  ]).catch((reason) => {
-    logger.error(reason);
-  });
+  return Promise.all([listItemPromise, lineagePromise, addPromise]).catch(
+    (reason) => {
+      logger.error(reason);
+    }
+  );
 };

@@ -24,9 +24,9 @@ Here are the parts:
 - `patternGroup` denotes the overall pattern type. If using Atomic Design this will be something like "atoms" or "molecules" but it can be anything you want. For example, "components" or "elements."
 - `patternSubgroup` denotes the sub-type of pattern and is _optional_. This helps to organize patterns under an overall pattern type in the drop downs in Pattern Lab. For example, a "blocks" pattern subgroup under the "molecules" pattern type.
 - `patternName` is the name of the pattern. This is used when the pattern is displayed in the drop downs in Pattern Lab.
-- `patternExtension` is the file extension that tells the PatternEngine to render the pattern. For example, `.mustache`.
+- `patternExtension` is the file extension that tells the PatternEngine to render the pattern. For example, `.hbs`.
 
-Dashes (`-`) in your pattern types, pattern subgroups or pattern names will be replaced with spaces. For example, if you want a pattern to be displayed in the drop-down as "Hamburger Navigation" and you're using the Mustache PatternEngine you should name it `hamburger-navigation.mustache`.
+Dashes (`-`) in your pattern types, pattern subgroups or pattern names will be replaced with spaces. For example, if you want a pattern to be displayed in the drop-down as "Hamburger Navigation" and you're using the Handlebars PatternEngine you should name it `hamburger-navigation.hbs`.
 
 ## Pattern Type Naming Conventions
 
@@ -43,8 +43,8 @@ Node versions support nesting of folders under `patternSubgroup`. For example, y
     - molecules/
       - blocks/
         - media-block/
+          - media-block.hbs
           - media-block.md
-          - media-block.mustache
           - media-block.scss
           - media-block~variant1.json
           - media-block~variant2.json
