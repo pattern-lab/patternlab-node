@@ -7,7 +7,6 @@ import Fuse from 'fuse.js';
 import ReactHtmlParser from 'react-html-parser';
 import classNames from 'classnames';
 import Mousetrap from 'mousetrap';
-import VisuallyHidden from '@reach/visually-hidden';
 import Autosuggest from 'react-autosuggest';
 
 import { urlHandler, iframeMsgDataExtraction } from '../../utils';
@@ -255,7 +254,7 @@ class Search extends BaseComponent {
             }}
             type="button"
           >
-            <VisuallyHidden>{clearButtonText}</VisuallyHidden>
+            <span class="is-vishidden">{clearButtonText}</span>
             <svg
               viewBox="0 0 16 16"
               height="16"
