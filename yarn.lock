@@ -2195,18 +2195,6 @@
   dependencies:
     "@octokit/openapi-types" "^12.11.0"
 
-"@reach/polymorphic@0.18.0":
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/@reach/polymorphic/-/polymorphic-0.18.0.tgz#2fe42007a774e06cdbc8e13e0d46f2dc30f2f1ed"
-  integrity sha512-N9iAjdMbE//6rryZZxAPLRorzDcGBnluf7YQij6XDLiMtfCj1noa7KyLpEc/5XCIB/EwhX3zCluFAwloBKdblA==
-
-"@reach/visually-hidden@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/@reach/visually-hidden/-/visually-hidden-0.18.0.tgz#17923c08acc5946624c2836b2b09d359b3aa8c27"
-  integrity sha512-NsJ3oeHJtPc6UOeV6MHMuzQ5sl1ouKhW85i3C0S7VM+klxVlYScBZ2J4UVnWB50A2c+evdVpCnld2YeuyYYwBw==
-  dependencies:
-    "@reach/polymorphic" "0.18.0"
-
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
