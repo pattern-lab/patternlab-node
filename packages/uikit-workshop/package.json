@@ -46,7 +46,6 @@
     "@pattern-lab/engine-handlebars": "^6.0.0",
     "@pattern-lab/engine-mustache": "^6.0.0",
     "@pattern-lab/uikit-polyfills": "^6.0.0",
-    "@reach/visually-hidden": "^0.1.2",
     "@webcomponents/custom-elements": "^1.4.3",
     "autoprefixer": "^10.2.5",
     "babel-loader": "^9.1.2",
