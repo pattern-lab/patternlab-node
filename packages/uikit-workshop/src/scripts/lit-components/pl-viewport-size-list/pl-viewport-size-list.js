@@ -4,8 +4,6 @@ import { define, props } from 'skatejs';
 import { BaseComponent } from '../../components/base-component.js';
 import { store } from '../../store.js'; // connect to redux
 
-import VisuallyHidden from '@reach/visually-hidden';
-
 import {
   minViewportWidth,
   maxViewportWidth,
