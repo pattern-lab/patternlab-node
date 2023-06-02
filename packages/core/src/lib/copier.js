@@ -11,15 +11,7 @@ const copier = () => {
   const transform_paths = (directories) => {
     //create array with all source keys minus our blacklist
     const dirs = {};
-    const blackList = [
-      'root',
-      'patterns',
-      'data',
-      'meta',
-      'annotations',
-      'patternlabFiles',
-      'styleguide',
-    ];
+    const blackList = ['root', 'patterns', 'data', 'meta', 'annotations', 'patternlabFiles', 'styleguide'];
     _.each(directories.source, (dir, key) => {
       if (blackList.includes(key)) {
         return;
@@ -57,10 +49,7 @@ const copier = () => {
 
     // Adding assets to filter for in case of transformedAssetTypes defined; adapted regex from https://stackoverflow.com/a/6745455
     if (patternlab.config.transformedAssetTypes) {
-      copyOptions.filter = new RegExp(
-        `.*(?<![.](${patternlab.config.transformedAssetTypes.join('|')}))$`,
-        'i'
-      );
+      copyOptions.filter = new RegExp(`.*(?<![.](${patternlab.config.transformedAssetTypes.join('|')}))$`, 'i');
     }
 
     //loop through each directory asset object (source / public pairing)
@@ -75,12 +64,8 @@ const copier = () => {
         //just copy
         copyPromises.push(
           _.map(patternlab.uikits, (uikit) => {
-            copyFile(
-              dir.source,
-              path.join(basePath, uikit.outputDir, dir.public),
-              copyOptions
-            );
-          })
+            copyFile(dir.source, path.join(basePath, uikit.outputDir, dir.public), copyOptions);
+          }),
         );
       }
     });
@@ -91,9 +76,9 @@ const copier = () => {
         copyFile(
           path.join(uikit.modulePath, assetDirectories.source.styleguide),
           path.join(basePath, uikit.outputDir, assetDirectories.public.root),
-          copyOptions
+          copyOptions,
         );
-      })
+      }),
     );
 
     // copy the favicon
@@ -101,14 +86,10 @@ const copier = () => {
       _.map(patternlab.uikits, (uikit) => {
         copyFile(
           `${assetDirectories.source.root}favicon.ico`,
-          path.join(
-            basePath,
-            uikit.outputDir,
-            `${assetDirectories.public.root}/favicon.ico`
-          ),
-          copyOptions
+          path.join(basePath, uikit.outputDir, `${assetDirectories.public.root}/favicon.ico`),
+          copyOptions,
         );
-      })
+      }),
     );
 
     return Promise.all(copyPromises).then(() => {

@@ -17,42 +17,72 @@
       "options": {
         "script": "pl:build"
       },
-      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+      "dependsOn": [
+        {
+          "target": "build",
+          "dependencies": true
+        }
+      ]
     },
     "pl:help": {
       "executor": "nx:run-script",
       "options": {
         "script": "pl:help"
       },
-      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+      "dependsOn": [
+        {
+          "target": "build",
+          "dependencies": true
+        }
+      ]
     },
     "pl:install": {
       "executor": "nx:run-script",
       "options": {
         "script": "pl:install"
       },
-      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+      "dependsOn": [
+        {
+          "target": "build",
+          "dependencies": true
+        }
+      ]
     },
     "pl:serve": {
       "executor": "nx:run-script",
       "options": {
         "script": "pl:serve"
       },
-      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+      "dependsOn": [
+        {
+          "target": "build",
+          "dependencies": true
+        }
+      ]
     },
     "pl:starterkit": {
       "executor": "nx:run-script",
       "options": {
         "script": "pl:starterkit"
       },
-      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+      "dependsOn": [
+        {
+          "target": "build",
+          "dependencies": true
+        }
+      ]
     },
     "pl:version": {
       "executor": "nx:run-script",
       "options": {
         "script": "pl:version"
       },
-      "dependsOn": [{ "target": "build", "projects": "dependencies" }]
+      "dependsOn": [
+        {
+          "target": "build",
+          "dependencies": true
+        }
+      ]
     }
   },
   "tags": []

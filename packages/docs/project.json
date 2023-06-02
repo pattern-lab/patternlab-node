@@ -18,7 +18,7 @@
       }
     },
     "build": {
-      "executor": "@nrwl/js:tsc",
+      "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/docs",
@@ -35,8 +35,12 @@
         ]
       },
       "dependsOn": [
-        { "projects": "self", "target": "build-docs" },
-        { "projects": "self", "target": "rename-output" }
+        {
+          "target": "build-docs"
+        },
+        {
+          "target": "rename-output"
+        }
       ]
     },
     "publish": {
@@ -47,14 +51,14 @@
       "dependsOn": ["build"]
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["packages/docs/**/*.js"]
       }
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "packages/docs/jest.config.js",

@@ -39,13 +39,13 @@
     "libsDir": "packages"
   },
   "generators": {
-    "@nrwl/web:application": {
+    "@nx/web:application": {
       "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "jest",
       "e2eTestRunner": "none"
     },
-    "@nrwl/web:library": {
+    "@nx/web:library": {
       "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "jest"

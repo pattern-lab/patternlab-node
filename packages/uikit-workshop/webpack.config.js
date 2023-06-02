@@ -1,4 +1,4 @@
-const { composePlugins } = require('@nrwl/webpack');
+const { composePlugins } = require('@nx/webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const fs = require('node:fs');
