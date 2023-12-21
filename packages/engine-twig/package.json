@@ -4,7 +4,7 @@
   "version": "6.0.0",
   "main": "lib/engine_twig.js",
   "dependencies": {
-    "fs-extra": "10.0.0",
+    "fs-extra": "11.1.1",
     "twing": "^5.0.2"
   },
   "keywords": [

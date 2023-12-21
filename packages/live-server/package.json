@@ -16,9 +16,9 @@
     "colors": "1.4.0",
     "connect": "3.7.0",
     "cors": "2.8.5",
-    "event-stream": "3.3.4",
+    "event-stream": "4.0.1",
     "faye-websocket": "0.11.x",
-    "http-auth": "4.1.x",
+    "http-auth": "4.2.x",
     "http-auth-connect": "^1.0.5",
     "morgan": "1.10.0",
     "object-assign": "4.1.1",
@@ -29,9 +29,9 @@
   },
   "devDependencies": {
     "eslint": "4.18.2",
-    "jshint": "2.12.0",
-    "mocha": "4.0.1",
-    "supertest": "3.0.0"
+    "jshint": "2.13.6",
+    "mocha": "10.2.0",
+    "supertest": "6.3.3"
   },
   "scripts": {
     "lint": "eslint live-server.js index.js",

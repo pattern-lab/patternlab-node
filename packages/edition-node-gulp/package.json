@@ -9,7 +9,7 @@
     "@pattern-lab/engine-mustache": "^6.0.0",
     "@pattern-lab/uikit-workshop": "^6.0.3",
     "gulp": "4.0.2",
-    "minimist": "1.2.5"
+    "minimist": "1.2.8"
   },
   "keywords": [
     "Pattern Lab",
