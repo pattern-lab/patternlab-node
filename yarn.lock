@@ -1121,10 +1121,10 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@basalt/twig-renderer@^2.0.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@basalt/twig-renderer/-/twig-renderer-2.1.0.tgz#951e524fe1c75b37242d28d5b9552c9b1cce807b"
-  integrity sha512-27+8D3xJa8ht9ngo8FGsN76thAlQGsNiq5VF+rQX/aV93aGOneHGG900Tj0GqeZTKJ+F3s1O8I13JV0jcECByw==
+"@basalt/twig-renderer@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@basalt/twig-renderer/-/twig-renderer-3.0.1.tgz#6c75dca804ed917483b3028f2bfd4130173e5c20"
+  integrity sha512-pLZeVxdwohW0Y3yXxnEpvJahoGPe5MSbvspeYVKMaVvUZnFD90R4plYmvHcXrMBUCwmcPU4bIOXaV/TNzxS/hg==
   dependencies:
     "@babel/core" "^7.2.0"
     "@babel/preset-env" "^7.2.0"
