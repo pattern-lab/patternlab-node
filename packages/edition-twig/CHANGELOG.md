@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.1.0](https://github.com/pattern-lab/patternlab-node/compare/v6.0.3...v6.1.0) (2023-12-21)
+
+
+### Features
+
+* **engine-twig-php:** update @basalt/twig-renderer to v3.0.1 using Twig v3.7.1 ([#1499](https://github.com/pattern-lab/patternlab-node/issues/1499)) ([2e5c9e1](https://github.com/pattern-lab/patternlab-node/commit/2e5c9e1c6a3318ba1cd3765d448c181e4a3a9a27)), closes [#1496](https://github.com/pattern-lab/patternlab-node/issues/1496) [#1496](https://github.com/pattern-lab/patternlab-node/issues/1496)
+
+
+
+
+
 ## [6.0.3](https://github.com/pattern-lab/patternlab-node/compare/v6.0.2...v6.0.3) (2023-03-12)
 
 **Note:** Version bump only for package @pattern-lab/edition-twig
