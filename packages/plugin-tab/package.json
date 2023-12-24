@@ -9,7 +9,7 @@
     "lodash": "4.17.21"
   },
   "engines": {
-    "node": ">=16.20.0"
+    "node": ">=18.12.0"
   },
   "repository": "https://github.com/pattern-lab/patternlab-node/tree/master/packages/plugin-tab",
   "bugs": "https://github.com/pattern-lab/patternlab-node/issues",

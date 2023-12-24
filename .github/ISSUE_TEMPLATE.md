@@ -1,6 +1,6 @@
 <!-- before posting an issue, try chatting on https://gitter.im/pattern-lab/node -->
 
-<!-- before posting an issue, verify you are running at least Node 16.19.1 -->
+<!-- before posting an issue, verify you are running at least Node 18.12.0 -->
 
 <!-- Please consider to even also contribute by analyzing the problem within the codebase and suggesting a solution, either in this ticket or – even better and easier – with a pull request. All of our activities are non-profit and open source work is highly benefiting by any possible support from the community. -->
 
