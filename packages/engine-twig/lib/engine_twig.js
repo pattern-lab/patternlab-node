@@ -122,7 +122,7 @@ let patternLabConfig = {};
 const engine_twig = {
   engine: twing,
   engineName: 'twig',
-  engineFileExtension: '.twig',
+  engineFileExtension: ['.twig', '.html.twig'],
 
   // regexes, stored here so they're only compiled once
   findPartialsRE:
@@ -277,8 +277,8 @@ const engine_twig = {
    * assume it's already present
    */
   spawnMeta: function (config) {
-    this.spawnFile(config, '_head.twig');
-    this.spawnFile(config, '_foot.twig');
+    this.spawnFile(config, '_head.' + config.patternExtension);
+    this.spawnFile(config, '_foot.' + config.patternExtension);
   },
 
   /**

@@ -25,7 +25,7 @@ let patternLabConfig = {};
 const engine_twig_php = {
   engine: TwigRenderer,
   engineName: 'twig-php',
-  engineFileExtension: '.twig',
+  engineFileExtension: ['.twig', '.html.twig'],
   expandPartials: false,
   findPartialsRE:
     /{[%{]\s*.*?(?:extends|include|embed|from|import|use)\(?\s*['"](.+?)['"][\s\S]*?\)?\s*[%}]}/g,
@@ -123,7 +123,10 @@ const engine_twig_php = {
    */
   spawnMeta(config) {
     const { paths } = config;
-    ['_head.twig', '_foot.twig'].forEach((fileName) => {
+    [
+      '_head.' + config.patternExtension,
+      '_foot.' + config.patternExtension,
+    ].forEach((fileName) => {
       const metaFilePath = path.resolve(paths.source.meta, fileName);
       try {
         fs.statSync(metaFilePath);

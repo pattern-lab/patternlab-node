@@ -57,7 +57,7 @@ Possibility to define whether the initial viewport width on opening pattern lab 
 
 Sets default active pattern info code panel by file extension - if unset, uses the value out of _patternExtension_ config value, or instead use value `html` to display the html code initially, or the value defined for the _patternExtension_.
 
-**default**: _patternExtension_ value (`"hbs"` | `"mustache"` | `"twig"` | `"html"`)
+**default**: _patternExtension_ value (`"hbs"` | `"mustache"` | `"twig"` | `"html.twig"` | `"html"`)
 
 ## ishControlsHide
 
