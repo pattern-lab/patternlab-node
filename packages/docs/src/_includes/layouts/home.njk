@@ -3,6 +3,14 @@
 
 {% block content %}
 
+    {% set additionalClasses = 'c-tile--orange' %}
+    {% set title = 'Pattern Lab is archived. ' %}
+    {% set link = 'https://github.com/pattern-lab' %}
+    {% set description = "Read the <a href='https://github.com/pattern-lab'>full announcement</a>, and thank you." %}
+    <header>
+    {% include "components/tile.njk" %}
+    </header>
+
     {% include "components/hero.njk" %}
 
     <div class="l-container">
